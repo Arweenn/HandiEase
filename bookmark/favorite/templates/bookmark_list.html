@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Bookmark List</title>
+</html>
+<h1>My Bookmarks</h1>
+<ul>
+    {% for bookmark in bookmarks %}
+        <li>
+            {{ bookmark.content_type }}
+        </li>
+    {% endfor %}
+</ul>
