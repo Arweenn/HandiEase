@@ -8,7 +8,7 @@ from .forms import UserRegisterForm
 
 # index page
 def index(request):
-	return render(request, 'user/index.html', {'title':'index'})
+	return render(request, 'index.html', {'title':'index'})
 
 # register forms 
 def register(request):

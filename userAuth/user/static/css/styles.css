@@ -1,0 +1,130 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basic Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+.forms-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.section-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.forms {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.form-wrapper {
+    flex: 1;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.form-wrapper.is-active {
+    background-color: #f0f0f0;
+}
+
+.switcher {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: #555;
+    cursor: pointer;
+    margin-bottom: 20px;
+    outline: none;
+    position: relative;
+}
+
+.switcher .underline {
+    display: block;
+    height: 2px;
+    background: #007BFF;
+    width: 0;
+    transition: all 0.3s ease;
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.switcher:hover .underline,
+.form-wrapper.is-active .switcher .underline {
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-block {
+    margin-bottom: 15px;
+}
+
+.input-block label {
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+.input-block input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.input-block input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.btn-login,
+.btn-signup {
+    padding: 10px;
+    font-size: 1em;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-login:hover,
+.btn-signup:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #d9534f; /* default to error color, change in JS if needed */
+}
