@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HandiEase - Articles</title>
+</head>
+<body>
+    <h1>Articles</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <h2><a href="{{ article.link }}">{{ article.title }}</a></h2>
+                <p>{{ article.summary|safe }}</p>
+                {% if article.image_url %}
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                {% endif %}
+                {% if article.published %}
+                    <p> Publié le: {{ article.published }}</p>
+                {% endif %}
+                {% if article.source %}
+                    <p> Source: {{ article.source }}</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

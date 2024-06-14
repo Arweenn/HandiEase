@@ -3,6 +3,11 @@ from bs4 import BeautifulSoup
 import feedparser
 from dateutil import parser as date_parser
 from dateutil.tz import tzutc
+import requests
+
+
+def index(request):
+    return render(request, 'index.html')
 
 
 def is_podcast(article):
@@ -72,4 +77,40 @@ def getRSS(request):
         'articles': formatted_articles
     }
 
-    return render(request, 'index.html', context)
+    return render(request, 'articles.html', context)
+
+
+def getEvent(request):
+
+    urls = [
+        'https://www.yanous.com/news/agenda.html/feed',
+    ]
+
+    events_list = []
+    for url in urls:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        for event in soup.select('.event'):
+
+            title_tag = event.select_one('.event-title')
+            description_tag = event.select_one('.event-description')
+            location_tag = event.select_one('.event-location')
+            start_date_tag = event.select_one('.event-start-date')
+            end_date_tag = event.select_one('.event-end-date')
+
+            formatted_event = {
+                'title': title_tag.get_text(strip=True),
+                'description': description_tag.get_text(strip=True),
+                'location': location_tag.get_text(strip=True),
+                'start_date': date_parser.parse(start_date_tag.get_text(strip=True)),
+                'end_date': date_parser.parse(end_date_tag.get_text(strip=True)),
+            }
+
+            events_list.append(formatted_event)   
+
+    context = {
+        'events': formatted_event
+    }
+
+    return render(request, 'events.html', context)

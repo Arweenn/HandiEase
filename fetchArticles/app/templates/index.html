@@ -1,28 +1,15 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>HandiEase</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>Accueil</h1>
-    <ul>
-        {% for article in articles %}
-            <li>
-                <h2><a href="{{ article.link }}">{{ article.title }}</a></h2>
-                <p>{{ article.summary|safe }}</p>
-                {% if article.image_url %}
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
-                {% endif %}
-                {% if article.published %}
-                    <p> Publié le: {{ article.published }}</p>
-                {% endif %}
-                {% if article.source %}
-                    <p> Source: {{ article.source }}</p>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-</body>
+    <header>
+        <meta charset="UTF-8">
+        <title>HandiEase</title>
+    </header>
+    <body>
+        <h1>HandiEase</h1>
+        <nav>
+            <ul>
+                <li><a href="events">Agenda / Evènements</a></li>
+                <li><a href="articles">Articles</a></li>
+            </ul>
+        </nav>
 </html>

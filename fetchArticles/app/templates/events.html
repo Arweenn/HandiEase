@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>HandiEase - Agenda</title>
+</head>
+<body>
+    <h1>Evènements</h1>
+    <ul>
+        {% for event in events %}
+            <li>
+                <h2><a href="{{ event.link }}">{{ event.title }}</a></h2>
+                <p>{{ event.description }}</p>
+                {% if event.start_date and event.end_date %}
+                    <p><strong> Du: </strong>{{ event.start_date }}</p>
+                    <p><strong> Au: </strong>{{ event.end_date }}</p>
+                {% endif %}
+                {% if event.location %}
+                    <p><strong> Aura lieu à: </strong>{{ event.location }}</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
