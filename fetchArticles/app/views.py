@@ -110,7 +110,7 @@ def getEvent(request):
             events_list.append(formatted_event)   
 
     context = {
-        'events': formatted_event
+        'events': events_list
     }
 
     return render(request, 'events.html', context)
