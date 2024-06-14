@@ -100,11 +100,11 @@ def getEvent(request):
             end_date_tag = event.select_one('.event-end-date')
 
             formatted_event = {
-                'title': title_tag.get_text(strip=True),
-                'description': description_tag.get_text(strip=True),
-                'location': location_tag.get_text(strip=True),
-                'start_date': date_parser.parse(start_date_tag.get_text(strip=True)),
-                'end_date': date_parser.parse(end_date_tag.get_text(strip=True)),
+                'title': title_tag.get_text(strip=True) if title_tag else '',
+                'description': description_tag.get_text(strip=True) if description_tag else '',
+                'location': location_tag.get_text(strip=True) if location_tag else '',
+                'start_date': date_parser.parse(start_date_tag.get_text(strip=True)) if start_date_tag else '',
+                'end_date': date_parser.parse(end_date_tag.get_text(strip=True)) if end_date_tag else '',
             }
 
             events_list.append(formatted_event)   
