@@ -23,7 +23,7 @@
         <ul>
             {% for article in articles %}
                 <li>
-                    <h3><a href="{% url 'app:article_detail' article.id %}">{{ article.title }}</a></h3>
+                    <h3><a href="{{ article.link }}" target="_blank">{{ article.title }}</a></h3>
                     <p>{{ article.summary|safe }}</p>
                     {% if article.image_url %}
                         <img class="article-image" src="{{ article.image_url }}" alt="{{ article.title }}">

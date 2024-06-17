@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from dateutil import parser as date_parser
 from bs4 import BeautifulSoup, Tag
 from dateutil.tz import tzutc
 from .models import Article
-import requests, feedparser
+import feedparser
 
 
 # Vue pour afficher la page d'accueil
@@ -92,8 +92,3 @@ def getRSS(request):
     }
     return render(request, 'articles.html', context)
 
-
-# Vue pour afficher le détail d'un article
-def get_article_detail(request, article_id):
-    article = get_object_or_404(Article, pk=article_id)     # Récupérer l'article ou renvoyer une 404 si l'article n'existe pas
-    return render(request, 'article_detail.html', {'article': article})
