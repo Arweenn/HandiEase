@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HandiEase - {{ article.title }}</title>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>HandiEase</h1>
+            <div class="topnav">
+                <nav>
+                    <a href="/">Accueil</a>
+                    <a href="articles">Actualités</a>
+                    <button>Connexion</button>
+                    <button>Profile</button>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <article>
+                <div class="article-content">
+                <h2>{{ article.title }}</h2>
+                </div>
+            </article>
+        </main>
+    </body>
+</html>

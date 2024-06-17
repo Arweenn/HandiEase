@@ -1,116 +1,99 @@
-from django.shortcuts import render
-from bs4 import BeautifulSoup
-import feedparser
+from django.shortcuts import render, get_object_or_404
 from dateutil import parser as date_parser
+from bs4 import BeautifulSoup, Tag
 from dateutil.tz import tzutc
-import requests
+from .models import Article
+import requests, feedparser
 
 
+# Vue pour afficher la page d'accueil
 def index(request):
     return render(request, 'index.html')
 
 
+# Fonction pour vérifier si un article est un podcast
 def is_podcast(article):
-    return any(link.get('type').startswith('audio') for link in article.links)
+    return any(link.get('type', '').startswith('audio') for link in article.get('links', []))
 
 
+# Fonction pour parser un article et extraire les informations nécessaires
+def parse_article(article):
+    formatted_article = {
+        'title': getattr(article, 'title', ''),
+        'link': getattr(article, 'link', ''),
+        'summary': getattr(article, 'summary', ''),
+        'content': getattr(article, 'content', ''),
+        'source': getattr(article, 'source', {}).get('title', ''),
+        'published': parse_published_date(getattr(article, 'published', None))
+    }
+
+    # Récupérer l'URL de l'image de l'article
+    image_url = get_image_url(article)
+    if image_url:
+        formatted_article['image_url'] = image_url
+
+    return formatted_article
+
+
+# Fonction pour parser la date de publication
+def parse_published_date(published):
+    if not published:
+        return None
+    try:
+        published_date = date_parser.parse(published)
+        if published_date.tzinfo is None:
+            published_date = published_date.replace(tzinfo=tzutc())
+        return published_date
+    except (ValueError, TypeError):
+        return None
+
+
+# Fonction pour extraire l'URL de l'image de l'article
+def get_image_url(article):
+    if 'media_content' in article:
+        return article.media_content[0].get('url')
+    if 'media_thumbnail' in article:
+        return article.media_thumbnail[0].get('url')
+    
+    soup = BeautifulSoup(article.summary, 'html.parser')
+    img_tag = soup.find('img')
+    if img_tag and isinstance(img_tag, Tag):
+        return img_tag.get('src')
+    return None
+
+
+# Vue pour récupérer et afficher les articles RSS
 def getRSS(request):
-
     urls = [
         'https://www.handicap.fr/rss',
         'https://handirect.fr/feed',
-        'https://www.lemonde.fr/handicap/rss_full.xml'
     ]
 
-    formatted_articles = []
     for url in urls:
-        feed = feedparser.parse(url)
+        feed = feedparser.parse(url)  # Parser le flux RSS
         articles = feed.entries
 
         for article in articles:
-
-            if is_podcast(article):
+            if is_podcast(article):  # Ignorer les podcasts
                 continue
 
-            formatted_article = {
-                'title': article.title,
-                'link': article.link,
-                'summary': article.summary,
-                'source': article.source.title if hasattr(article, 'source') else '',
-            }
+            formatted_article = parse_article(article)  # Parser l'article
 
-            if hasattr(article, 'published'):
-                try:
-                    published_date = date_parser.parse(article.published)
-                    if published_date.tzinfo is None:
-                        published_date = published_date.replace(tzinfo=tzutc())
-                    formatted_article['published'] = published_date
-                except (ValueError, TypeError):
-                    formatted_article['published'] = None
-            else:
-                formatted_article['published'] = None
+            # Mettre à jour ou créer l'article dans la base de données
+            Article.objects.update_or_create(
+                link=formatted_article['link'],
+                defaults=formatted_article
+            )
 
-            image_url = None
-            if 'media_content' in article:
-                image_url = article.media_content[0]['url']
-            elif 'media_thumbnail' in article:
-                image_url = article.media_thumbnail[0]['url']
-            else:
-                soup = BeautifulSoup(article.summary, 'html.parser')
-                img_tag = soup.find('img')
-                if img_tag and isinstance(img_tag, BeautifulSoup):
-                    image_url = img_tag.get('src')
-
-            if image_url:
-                formatted_article['image_url'] = image_url
-
-            formatted_articles.append(formatted_article)
-
-    default_date = date_parser.parse('1970-01-01T00:00:00Z').replace(tzinfo=tzutc())
-    formatted_articles = sorted(
-        formatted_articles,
-        key=lambda x: x['published'] if x['published'] else default_date,
-        reverse=True
-    )    
-
+    # Récupérer tous les articles triés par date de publication
+    formatted_articles = Article.objects.all().order_by('-published')
     context = {
         'articles': formatted_articles
     }
-
     return render(request, 'articles.html', context)
 
 
-def getEvent(request):
-
-    urls = [
-        'https://www.yanous.com/news/agenda.html/feed',
-    ]
-
-    events_list = []
-    for url in urls:
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
-
-        for event in soup.select('.event'):
-
-            title_tag = event.select_one('.event-title')
-            description_tag = event.select_one('.event-description')
-            location_tag = event.select_one('.event-location')
-            start_date_tag = event.select_one('.event-start-date')
-            end_date_tag = event.select_one('.event-end-date')
-
-            formatted_event = {
-                'title': title_tag.get_text(strip=True) if title_tag else '',
-                'description': description_tag.get_text(strip=True) if description_tag else '',
-                'location': location_tag.get_text(strip=True) if location_tag else '',
-                'start_date': date_parser.parse(start_date_tag.get_text(strip=True)) if start_date_tag else '',
-                'end_date': date_parser.parse(end_date_tag.get_text(strip=True)) if end_date_tag else '',
-            }
-
-            events_list.append(formatted_event)   
-
-    context = {
-        'events': events_list
-    }
-
-    return render(request, 'events.html', context)
+# Vue pour afficher le détail d'un article
+def get_article_detail(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)     # Récupérer l'article ou renvoyer une 404 si l'article n'existe pas
+    return render(request, 'article_detail.html', {'article': article})
