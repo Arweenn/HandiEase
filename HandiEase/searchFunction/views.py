@@ -2,7 +2,8 @@ from django.views.generic import TemplateView
 from django.db.models import Q
 from .models import Article, Structure, Professional, Event
 
-# Vue pour la page d'accueil
+
+# Vue pour la page de recherche
 class HomePageView(TemplateView):
 
     template_name = "search.html"

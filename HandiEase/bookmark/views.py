@@ -5,12 +5,12 @@ from django.views.generic import ListView
 from .models import Bookmark
 
 
-# Décorateur pour s'assurer que seul un utilisateur connecté peut accéder à cette vue.
-@login_required
-def home(request):
+# # Décorateur pour s'assurer que seul un utilisateur connecté peut accéder à cette vue.
+# @login_required
+# def home(request):
 
-    # Renvoie la page d'accueil.
-    return render(request, 'home.html')
+#     # Renvoie la page d'accueil.
+#     return render(request, 'home.html')
 
 
 @login_required
@@ -27,14 +27,14 @@ def add_bookmark(request, content_type_id, object_id):
     )
 
     # Rediriger l'utilisateur vers la liste des favoris.
-    return redirect('bookmark_list')
+    return redirect('bookmarks')
 
 
 # Vue basée sur une classe pour afficher la liste des favoris de l'utilisateur connecté, utilisant ListView.
 class BookmarkListView(ListView):
 
     model = Bookmark
-    template_name = 'bookmark_list.html'
+    template_name = 'bookmarks.html'
     context_object_name = 'bookmarks'
 
     # Récupérer les favoris de l'utilisateur connecté.

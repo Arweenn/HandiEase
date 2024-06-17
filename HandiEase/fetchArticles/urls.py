@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import index, getRSS
+from .views import getRSS
 
 app_name = 'app'
 
 urlpatterns = [
-    path('', index, name='index'),
     path('articles/', getRSS, name='articles'),
 ]

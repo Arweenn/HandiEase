@@ -6,9 +6,9 @@ from .models import Article
 import feedparser
 
 
-# Vue pour afficher la page d'accueil
-def index(request):
-    return render(request, 'index.html')
+# # Vue pour afficher la page d'accueil
+# def index(request):
+#     return render(request, 'homepage.html')
 
 
 # Fonction pour vérifier si un article est un podcast

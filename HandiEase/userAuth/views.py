@@ -6,12 +6,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
 
 
-# Page d'accueil
-def index(request):
-
-    return render(request, 'index.html', {'title': 'index'})
-
-
 # Vue pour l'inscription des utilisateurs
 def register(request):
 
@@ -27,7 +21,7 @@ def register(request):
     else:
         form = UserRegisterForm()
 
-    return render(request, 'index.html', {'form': form, 'title': 'register here'})
+    return render(request, 'login-register.html', {'form': form, 'title': 'register here'})
 
 
 # Vue pour la connexion des utilisateurs
@@ -54,11 +48,11 @@ def login(request):
     else:
         form = AuthenticationForm()
 
-    return render(request, 'index.html', {'form': form, 'title': 'log in'})
+    return render(request, 'login-register.html', {'form': form, 'title': 'log in'})
 
 
 # Vue pour le profil de l'utilisateur
 @login_required
 def profile(request):
 
-    return render(request, 'profile.html', {'title': 'profile'})
+    return render(request, 'profil.html', {'title': 'profil'})

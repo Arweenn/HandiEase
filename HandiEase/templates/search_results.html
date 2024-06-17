@@ -9,6 +9,15 @@
     <div>
         <div class="selector">
             <h1>Search</h1>
+            <div class="topnav">
+                <nav>
+                    <a href="homepage">Accueil</a>
+                    <a href="articles">Actualités</a>
+                    <a href="search">Recherche</a>
+                    <button><a href="login-register">Connexion</a></button>
+                    <button><a href="profil">Profil</a></button>
+                </nav>
+            </div>
             <form id="search-form" method="get" action="{% url 'search_results' %}">
                 <input type="text" name="q" placeholder="Search..." value="{{ query }}">
                 <select name="category">

@@ -5,10 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HandiEase</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static './static/css/log-reg.css' %}">
 </head>
 <body>
   <h1>HandiEase</h1>
+  <div class="topnav">
+    <nav>
+      <a href="homepage">Accueil</a>
+      <a href="articles">Actualités</a>
+      <a href="search">Recherche</a>
+      <button><a href="login-register">Connexion</a></button>
+      <button><a href="profil">Profil</a></button>
+  </nav>
+  </div>
   <section class="forms-section">
     <div class="forms">
       <div class="form-wrapper is-active">
@@ -61,6 +70,6 @@
       </div>
     </div>
   </section>
-    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static './static/js/log-reg.js' %}"></script>
 </body>
 </html>
