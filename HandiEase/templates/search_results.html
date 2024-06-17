@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <div>
+        <div class="selector">
+            <h1>Search</h1>
+            <form id="search-form" method="get" action="{% url 'search_results' %}">
+                <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+                <select name="category">
+                    <option value="">All Categories</option>
+                    <option value="articles" {% if category == 'articles' %}selected{% endif %}>Articles</option>
+                    <option value="structures" {% if category == 'structures' %}selected{% endif %}>Structures</option>
+                    <option value="professionals" {% if category == 'professionals' %}selected{% endif %}>Professionals</option>
+                    <option value="events" {% if category == 'events' %}selected{% endif %}>Events</option>
+                </select>
+                <button id="search_button" type="submit">Search</button>
+            </form>
+        </div>
+
+        <div class="container">
+            {% for result in object_list %}
+
+                {% if not result %}
+                    <li>No results found.</li>
+
+                {% elif result.title and result.content and result.published_date %}
+                    <li>{{ result.title }}: {{ result.content }} Published on {{ result.published_date }};</li>
+
+                {% elif result.name and result.description and result.location %}
+                    <li>{{ result.name }}: {{ result.description }} Situated in {{ result.location }};</li>
+
+                {% elif result.first_name and result.last_name and result.profession %}
+                    <li>{{ result.first_name }} {{ result.last_name }}, {{ result.profession }}. Situated in {{ result.location }};</li>
+
+                {% elif result.name and result.date %}
+                    <li>{{ result.name }}: on {{ result.date }} Taking part in {{ result.location }};</li>     
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
