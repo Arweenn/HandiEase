@@ -21,7 +21,7 @@ def register(request):
     else:
         form = UserRegisterForm()
 
-    return render(request, 'login-register.html', {'form': form, 'title': 'register here'})
+    return render(request, 'register.html', {'form': form, 'title': 'register here'})
 
 
 # Vue pour la connexion des utilisateurs
@@ -48,7 +48,7 @@ def login(request):
     else:
         form = AuthenticationForm()
 
-    return render(request, 'login-register.html', {'form': form, 'title': 'log in'})
+    return render(request, 'register.html', {'form': form, 'title': 'log in'})
 
 
 # Vue pour le profil de l'utilisateur

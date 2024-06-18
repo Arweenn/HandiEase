@@ -3,6 +3,6 @@ from .views import HomePageView, SearchResultsView
 
 
 urlpatterns = [
-    path("search/", SearchResultsView.as_view(), name="search_results"),
-    path("", HomePageView.as_view(), name="search"),
+    path('search-results/', SearchResultsView.as_view(), name='search_results'),
+    path('search/', HomePageView.as_view(), name='search'),
 ]

@@ -8,3 +8,7 @@ fetchArticles/app/migrations/0002_article.py
 fetchArticles/app/migrations/0003_alter_article_title.py
 fetchArticles/app/migrations/0004_alter_article_source.py
 fetchArticles/app/migrations/0005_alter_article_link.py
+HandiEase/bookmark/migrations/0001_initial.py
+HandiEase/fetchArticles/migrations/0001_initial.py
+HandiEase/userAuth/migrations/0001_initial.py
+HandiEase/searchFunction/migrations/0001_initial.py

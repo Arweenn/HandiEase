@@ -1,26 +1,25 @@
+{% load admin_urls %}
 <!DOCTYPE html>
-{% load static %}
 <html>
 <head>
     <meta charset="UTF-8">
     <title>HandiEase - Articles</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
         <h1>HandiEase</h1>
         <div class="topnav">
             <nav>
-                <a href="homepage">Accueil</a>
-                <a href="articles">Actualités</a>
-                <a href="search">Recherche</a>
-                <button><a href="login-register">Connexion</a></button>
-                <button><a href="profil">Profil</a></button>
+                <a href="{% url 'homepage' %}">Accueil</a>
+                <a href="{% url 'articles' %}">Actualités</a>
+                <a href="{% url 'search' %}">Recherche</a>
+                <a href="{% url 'register' %}">Connexion</a>
+                <a href="{% url 'profil' %}">Profil</a>
             </nav>
         </div>
     </header>
     <main>
-    <h2>Articles</h2>
+        <h2>Articles</h2>
         <ul>
             {% for article in articles %}
                 <li>
