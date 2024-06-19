@@ -6,11 +6,6 @@ from .models import Article
 import feedparser
 
 
-# # Vue pour afficher la page d'accueil
-# def index(request):
-#     return render(request, 'homepage.html')
-
-
 # Fonction pour vérifier si un article est un podcast
 def is_podcast(article):
     return any(link.get('type', '').startswith('audio') for link in article.get('links', []))
@@ -90,4 +85,4 @@ def getRSS(request):
     context = {
         'articles': formatted_articles
     }
-    return render(request, 'articles.html', context)
+    return render(request, 'homepage.html', context)

@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import getRSS
 
-app_name = 'app'
+app_name = 'fetchArticles'
 
 urlpatterns = [
-    path('articles/', getRSS, name='articles'),
+    path('', getRSS, name='fetch_rss'),
 ]

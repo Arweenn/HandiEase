@@ -1,22 +1,86 @@
 {% load admin_urls %}
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="fr-FR">
 <head>
     <meta charset="UTF-8">
     <title>HandiEase</title>
 </head>
+
 <body>
-    <h1><a href="{% url 'homepage' %}">HandiEase</a></h1>
-    <div class="topnav">
-        <nav>
-            <a href="{% url 'homepage' %}">Accueil</a>
-            <a href="{% url 'articles' %}">Actualités</a>
-            <a href="{% url 'search' %}">Recherche</a>
-            <a href="{% url 'register' %}">Connexion</a>
-            <a href="{% url 'profil' %}">Profil</a>
-        </nav>
-    </div>
-    <h2>A Propos</h2>
-    <p>Contenu de la section "A Propos" à remplir.</p>
+    <header>
+        <!-- Nav Bar -->
+        <div class="topnav">
+            <nav>
+                <h1>HandiEase</h1>
+                <button>Recherche</button>
+                <button>Connexion</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2>A Propos</h2>
+        <p>Contenu de la section "A Propos" à remplir.</p>
+    </section>
+
+    <!-- Articles Section -->
+    <section if="articles" class="section">
+        <h2>Actualités</h2>
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <h3><a href="{{ article.link }}" target="_blank">{{ article.title }}</a></h3>
+                        <p>{{ article.summary|safe }}</p>
+                    {% if article.image_url %}
+                        <img class="article-image" src="{{ article.image_url }}" alt="{{ article.title }}">
+                    {% endif %}
+                    {% if article.published %}
+                        <p><strong> Publié le: </strong>{{ article.published }}</p>
+                    {% endif %}
+                    {% if article.source %}
+                        <p><strong> Source: </strong>{{ article.source }}</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Article Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if articles.has_previous %}
+                    <a href="?page=1">&laquo; Première</a>
+                    <a href="?page={{ articles.previous_page_number }}">Précédente</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ articles.number }} de {{ articles.paginator.num_pages }}.
+                </span>
+
+                {% if articles.has_next %}
+                    <a href="?page={{ articles.next_page_number }}">Suivante</a>
+                    <a href="?page={{ articles.paginator.num_pages }}">Dernière &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </section>
+
+    <!-- List Section -->
+    <section id="liste" class="section">
+        <h2>Liste de lecture</h2>
+        <p>Contenu de la section "Liste de lecture" à remplir.</p>
+    </section>
 </body>
+
+<footer>
+    <h4>Disclaimer</h4>
+        <p>Les informations présentées sur ce site sont agrégées à partir de divers flux RSS de sources externes.
+            Nous ne possédons ni ne contrôlons le contenu original des articles, et les droits d'auteur de chaque article appartiennent à leurs auteurs respectifs.
+            Chaque titre et description d'article contient un lien vers le site d'origine, où vous pouvez consulter l'article complet.
+            Nous ne sommes pas responsables des contenus, opinions ou informations présentés sur les sites externes.
+            Ce site a été créé dans le cadre d'un projet étudiant sans aucun but lucratif. Si vous êtes le propriétaire du contenu et avez des questions
+            ou des préoccupations concernant l'utilisation de votre contenu sur notre site, veuillez me contacter directement [arwendumont06@gmail.com] pour résoudre la situation. </p>
+</footer>
 </html>
