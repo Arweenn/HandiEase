@@ -3,16 +3,8 @@ from django.db.models import Q
 from .models import Article, Structure, Professional, Event
 
 
-# Vue pour la page de recherche
-class HomePageView(TemplateView):
-
-    template_name = "search.html"
-
-
 # Vue pour les résultats de recherche
 class SearchResultsView(TemplateView):
-
-    template_name = "search_results.html"
 
 
     def get_queryset(self):

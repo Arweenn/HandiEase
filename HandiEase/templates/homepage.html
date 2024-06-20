@@ -14,7 +14,10 @@
         <div class="topnav">
             <nav>
                 <h1>HandiEase</h1>
-                <button>Recherche</button>
+                <form method="get" action="{% url 'homepage' %}">
+                    <input type="text" name="q" placeholder="Rechercher...">
+                    <button type="submit">Rechercher</button>
+                </form>
                 <button>Connexion</button>
             </nav>
         </div>
@@ -34,14 +37,11 @@
                 <li>
                     <h3><a href="{{ article.link }}" target="_blank">{{ article.title }}</a></h3>
                         <p>{{ article.summary|safe }}</p>
-                    {% if article.image_url %}
-                        <img class="article-image" src="{{ article.image_url }}" alt="{{ article.title }}">
-                    {% endif %}
                     {% if article.published %}
                         <p><strong> Publié le: </strong>{{ article.published }}</p>
                     {% endif %}
                     {% if article.source %}
-                        <p><strong> Source: </strong>{{ article.source }}</p>
+                        <p><strong> Source: </strong>{{ article.source }}</a></p>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -51,8 +51,8 @@
         <div class="pagination">
             <span class="step-links">
                 {% if articles.has_previous %}
-                    <a href="?page=1">&laquo; Première</a>
-                    <a href="?page={{ articles.previous_page_number }}">Précédente</a>
+                    <button><a href="?q={{ query }}&page=1">&laquo; Première</a></button>
+                    <button><a href="?q={{ query }}&page={{ articles.previous_page_number }}">Précédente</a></button>
                 {% endif %}
 
                 <span class="current">
@@ -60,8 +60,14 @@
                 </span>
 
                 {% if articles.has_next %}
-                    <a href="?page={{ articles.next_page_number }}">Suivante</a>
-                    <a href="?page={{ articles.paginator.num_pages }}">Dernière &raquo;</a>
+                    <button><a href="?q={{ query }}&page={{ articles.next_page_number }}">Suivante</a></button>
+                    <button><a href="?q={{ query }}&page={{ articles.paginator.num_pages }}">Dernière &raquo;</a></button>
+                {% endif %}
+
+                {% if not articles.has_next %}
+                    <span class="back-to-home">
+                        <button><a href="{% url 'homepage' %}">Retour</a></button>
+                    </span>
                 {% endif %}
             </span>
         </div>

@@ -1,21 +1,32 @@
 from django.shortcuts import render
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from dateutil import parser as date_parser
-from bs4 import BeautifulSoup, Tag
 from dateutil.tz import tzutc
-from .models import Article
 import feedparser
 
 
-# Vue principale 
+# Vue principale
+@cache_page(60 * 30)  # Cache la vue pendant 30 minutes
 def home(request):
 
-    articles = Article.objects.all().order_by('-published')  # Récupérer tous les articles triés par date de publication
+    rss_articles = cache.get('cached_articles')  # Récupérer les articles en cache
+    if not rss_articles:
+        rss_articles = getRSS()
+        cache.set('cached_articles', rss_articles)
 
+    query = request.GET.get('q', '')  # Récupérer la requête de recherche depuis les paramètres GET
+
+    if query:  # Si une requête de recherche est spécifiée
+        articles = [article for article in rss_articles if query.lower() in article['title'].lower()]
+    else:
+        articles = rss_articles
+    
     # Pagination
     paginator = Paginator(articles, 5)  # 5 articles par page
-
     page_num = request.GET.get('page')  # Récupérer le numéro de page demandé
+
     try:
         articles = paginator.page(page_num)  # Récupérer les articles de la page demandée
     except PageNotAnInteger:
@@ -24,7 +35,8 @@ def home(request):
         articles = paginator.page(paginator.num_pages)  # Afficher la dernière page si le numéro de page est trop grand
 
     context = {
-        'articles': articles
+        'articles': articles,
+        'query': query,
     }
 
     return render(request, 'homepage.html', context)
@@ -48,11 +60,6 @@ def parse_article(article):
         'published': parse_published_date(getattr(article, 'published', None))
     }
 
-    # Récupérer l'URL de l'image de l'article
-    image_url = get_image_url(article)
-    if image_url:
-        formatted_article['image_url'] = image_url
-
     return formatted_article
 
 
@@ -69,18 +76,13 @@ def parse_published_date(published):
         return None
 
 
-# Fonction pour extraire l'URL de l'image de l'article
-def get_image_url(article):
-    if 'media_content' in article:
-        return article.media_content[0].get('url')
-    if 'media_thumbnail' in article:
-        return article.media_thumbnail[0].get('url')
-    
-    soup = BeautifulSoup(article.summary, 'html.parser')
-    img_tag = soup.find('img')
-    if img_tag and isinstance(img_tag, Tag):
-        return img_tag.get('src')
-    return None
+# Fonction pour filtrer l'image de l'article
+def filter_image_from_article(article):
+
+    filtered_article = article.copy()
+    filtered_article.pop('image_url', None)
+
+    return filtered_article
 
 
 # Vue pour récupérer et afficher les articles RSS
@@ -88,27 +90,25 @@ def getRSS():
     urls = [
         'https://www.handicap.fr/rss',
         'https://handirect.fr/feed',
+        'https://handicap.paris.fr/feed/',
+        'https://actus.handicap.fr/rss',
     ]
 
+    formatted_articles = []
     for url in urls:
-        feed = feedparser.parse(url)  # Parser le flux RSS
+        feed = feedparser.parse(url)
         articles = feed.entries
 
         for article in articles:
-            if is_podcast(article):  # Ignorer les podcasts
+
+            if is_podcast(article):
                 continue
 
-            formatted_article = parse_article(article)  # Parser l'article
+            formatted_article = parse_article(article)
+            filtered_article = filter_image_from_article(formatted_article)
+            formatted_articles.append(filtered_article)
 
-            # Mettre à jour ou créer l'article dans la base de données
-            Article.objects.update_or_create(
-                link=formatted_article['link'],
-                defaults=formatted_article
-            )
+            default_date = date_parser.parse('1970-01-01T00:00:00Z').replace(tzinfo=tzutc())
+            formatted_articles.sort(key=lambda x: x['published'] if x['published'] else default_date, reverse=True)
 
-    # Récupérer tous les articles triés par date de publication
-    formatted_articles = Article.objects.all().order_by('-published')
-    context = {
-        'articles': formatted_articles
-    }
-
+    return formatted_articles
