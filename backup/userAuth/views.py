@@ -50,9 +50,3 @@ def login(request):
 
     return render(request, 'register.html', {'form': form, 'title': 'log in'})
 
-
-# Vue pour le profil de l'utilisateur
-@login_required
-def profile(request):
-
-    return render(request, 'profil.html', {'title': 'profil'})

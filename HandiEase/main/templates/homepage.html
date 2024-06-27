@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+    {% load admin_urls %}
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>HandiEase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/authPopup.css' %}">
+</head>
+
+<body>
+    <header>
+        <!-- Nav Bar -->
+        <div class="topnav">
+            <nav>
+                <h1>HandiEase</h1>
+                <form method="get" action="{% url 'homepage' %}">
+                    <input type="text" name="q" placeholder="Rechercher...">
+                    <button type="submit">Rechercher</button>
+                </form>
+
+                <!-- Login / Register -->
+                <div class="login-register">
+                    {% if user.is_authenticated %}
+                        <p>Bienvenue, {{ user.username }}!</p>
+                        <form method="post" action="{% url 'homepage' %}">
+                            {% csrf_token %}
+                            <button id="logoutButton">Déconnexion</button>
+                        </form>
+                    {% else %}
+                        <button id="openAuthPopup">S'authentifier</button>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <h2>A Propos</h2>
+        <p>Contenu de la section "A Propos" à remplir.</p>
+    </section>
+
+    <!-- List Section -->
+    {% if user.is_authenticated %}
+    <section id="liste" class="section">
+        <div id="specialField">
+            <h2>Liste de lecture</h2>
+            <ul>
+                {% for item in reading_list_items %}
+                    <li>
+                        <h3><a href="{{ article.link }}" target="_blank">{{ item.article.title }}</a></h3>
+                        <form method="post" action="{% url 'homepage' %}">
+                            {% csrf_token %}
+                            <button type="submit">Retirer de la liste de lecture</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% endif %}
+
+
+    <!-- Articles Section -->
+    <section if="articles" class="section">
+        <h2>Actualités</h2>
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <h3>{{ article.title }}</h3>
+                        <p>{{ article.summary|safe }}</p>
+                        <p><a href="{{ article.link }}" target="_blank">Lire l'article complet</a></p>
+                    {% if article.published %}
+                        <p><strong> Publié le: </strong>{{ article.published }}</p>
+                    {% endif %}
+                    {% if article.source %}
+                        <p><strong> Source: </strong>{{ article.source }}</a></p>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'homepage' %}">
+                            {% csrf_token %}
+                            <button type="submit">Ajouter à la liste de lecture</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Article Pagination -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if articles.has_previous %}
+                    <button><a href="?q={{ query }}&page=1">&laquo; Première</a></button>
+                    <button><a href="?q={{ query }}&page={{ articles.previous_page_number }}">Précédente</a></button>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ articles.number }} de {{ articles.paginator.num_pages }}.
+                </span>
+
+                {% if articles.has_next %}
+                    <button><a href="?q={{ query }}&page={{ articles.next_page_number }}">Suivante</a></button>
+                    <button><a href="?q={{ query }}&page={{ articles.paginator.num_pages }}">Dernière &raquo;</a></button>
+                {% endif %}
+
+                {% if not articles.has_next %}
+                    <span class="back-to-home">
+                        <button><a href="{% url 'homepage' %}">Retour</a></button>
+                    </span>
+                {% endif %}
+            </span>
+        </div>
+    </section>
+
+    <!-- Auth Popup -->
+    <section id="authPopup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <div class="popup-header">
+                <h2>Authentification</h2>
+            </div>
+            <div class="popup-body">
+                <form id="loginForm" method="post" action="return false;">
+                    <h2>Connexion</h2>
+
+                    <label for="usernameLogin">Nom d'utilisateur:</label>
+                    <input type="text" id="usernameLogin" name="username" required>
+
+                    <label for="pswLogin">Mot de Passe:</label>
+                    <input type="password" id="pswLogin" name="psw" required>
+
+                    <button type="submit">Connexion</button>
+                </form>
+                <form id="registerForm" method="post">
+                    <h2>Inscription</h2>
+
+                    <label for="usernameRegister">Nom d'utilisateur:</label>
+                    <input type="text" id="usernameRegister" name="username" required>
+
+                    <label for="emailRegister">Email:</label>
+                    <input type="text" id="emailRegister" name="email" required>
+
+                    <label for="pswRegister">Mot de Passe:</label>
+                    <input type="password" id="pswRegister" name="psw" required>
+
+                    <button type="submit">Inscription</button>
+                </form> 
+            </div>
+        </div>
+    </section>
+</body>
+
+<footer>
+    <div class="disclaimer">
+        <h4>Disclaimer</h4>
+            <p>
+            Les informations présentées sur ce site sont agrégées à partir de divers flux RSS de sources externes.
+            Nous ne possédons ni ne contrôlons le contenu original des articles, et les droits d'auteur de chaque article appartiennent à leurs auteurs respectifs.
+            Chaque titre et description d'article contient un lien vers le site d'origine, où vous pouvez consulter l'article complet.
+            Nous ne sommes pas responsables des contenus, opinions ou informations présentés sur les sites externes.
+            Si vous êtes le propriétaire du contenu et avez des questions ou des préoccupations concernant l'utilisation de votre contenu sur notre site,
+            veuillez me contacter directement par <a href="mailto:arwendumont06@gmail.com" target="_top">mail</a> pour résoudre la situation.
+            </p>
+    </div>
+
+    <div class="credits">
+        <h4>Crédits</h4>
+            <p>
+            Ce site a été créé par Arwen Dumont, dans le cadre d'un projet étudiant Développeur Web & Web Mobile, à <a href="https://www.holbertonschool.com/" target="_blank">Holberton School</a>.
+            Vous pouvez retrouver le code source sur <a href="https://github.com/Arweenn/HandiEase-Portfolio" target="_blank">GitHub</a>.
+            </p>
+    </div>
+</footer>
+<script src="{% static 'js/authPopup.js' %}"></script>
+</html>

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 app_name = 'main'
 
@@ -13,8 +14,10 @@ class Article(models.Model):
     image_url = models.URLField(null=True, blank=True)
     content = models.JSONField()
 
+
     def __str__(self):
         return self.title  # Représentation sous forme de chaîne du titre de l'article
+
 
     class Meta:
         indexes = [
@@ -22,3 +25,20 @@ class Article(models.Model):
             models.Index(fields=['published']),  # Index pour améliorer le tri et la recherche par date de publication
             models.Index(fields=['source']),  # Index pour améliorer la recherche par source
         ]
+
+
+# Modèle pour la liste de lecture
+class ReadingList(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    articles = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+
+    class Meta:
+
+        unique_together = ('user', 'articles')  # Contrainte d'unicité pour éviter les doublons dans la liste de lecture
+
+
+    def __str__(self):
+
+        return f'{self.user.username} - {self.articles.title}'
