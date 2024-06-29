@@ -1,38 +1,37 @@
-body {
-    font-family: "Roboto", sans-serif;
+/* Global box-sizing for all elements */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
-
-/* * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-} */
 
 .popup {
     display: none;
     position: fixed;
     z-index: 1;
-    left: 0;
-    top: 0;
+	top: 0;
+	left: 0;
     width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+	height: 100%;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.214);
+	backdrop-filter: blur(5px);
 }
 
+/* Popup content */
 .popup-content {
-    background-color: #fefefe;
-    margin: 15% auto;
+    background-color: #ffffffad;
+    margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
+    box-shadow: #00000040 0px 0px 5px 0px;
+    width: 100%;
+    max-width: 600px;
+	border-radius: 10px;
 }
 
+/* Close button */
 .close {
-    color: #aaa;
+    color: #383838f0;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -43,4 +42,315 @@ body {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* Styles for the forms section */
+.forms-section {
+	display: flex; /* Utilise Flexbox pour le positionnement */
+	flex-direction: column; /* Dispose les éléments en colonne */
+	justify-content: center; /* Centre le contenu horizontalement */
+	align-items: center; /* Centre le contenu verticalement */
+}
+
+/* Styles for section title */
+.section-title {
+	font-size: 32px;
+	letter-spacing: 1px;
+	color: #ffffff;
+}
+
+/* Container for forms */
+.forms {
+	display: flex; /* Utilise Flexbox pour le positionnement */
+	align-items: flex-start; /* Aligne les éléments sur le bord supérieur */
+	margin-top: 30px; /* Marge en haut */
+}
+
+/* Form wrapper animation when active */
+.form-wrapper {
+	animation: hideLayer .5s ease-out forwards; /* Animation pour masquer le formulaire */
+}
+
+/* Active state animation for form wrapper */
+.form-wrapper.is-active {
+	animation: showLayer .5s ease-in forwards; /* Animation pour afficher le formulaire */
+}
+
+/* Keyframes for showing layer */
+@keyframes showLayer {
+	50% {
+		z-index: 1; /* Changement de z-index à mi-chemin */
+	}
+	100% {
+		z-index: 1; /* Assure que le z-index reste élevé */
+	}
+}
+
+/* Keyframes for hiding layer */
+@keyframes hideLayer {
+	0% {
+		z-index: 1; /* Z-index initial */
+	}
+	49.999% {
+		z-index: 1; /* Assure que le z-index reste élevé avant de disparaître */
+	}
+}
+
+/* Switcher button styles */
+.switcher {
+	position: relative; /* Position relative pour des positions absolues enfants */
+	cursor: pointer; /* Curseur pointeur */
+	display: block; /* Affiche en tant que bloc */
+	margin-right: auto; /* Marge à droite automatique */
+	margin-left: auto; /* Marge à gauche automatique */
+	padding: 0; /* Aucun remplissage */
+	text-transform: uppercase; 
+	font-family: inherit; 
+	font-size: 16px; 
+	letter-spacing: .5px; 
+	color: #999; 
+	background-color: transparent;
+	border: none; 
+	outline: none;
+	transform: translateX(0); /* Pas de translation initiale */
+	transition: all .5s ease-out; /* Transition douce */
+}
+
+/* Login switcher styles */
+.form-wrapper.is-active .switcher-login {
+	color: #375F90; 
+	transform: translateX(90px);
+}
+
+/* Signup switcher styles */
+.form-wrapper.is-active .switcher-signup {
+	color: #375F90;
+	transform: translateX(-90px); 
+}
+
+/* Underline effect for switchers */
+.underline {
+	position: absolute; /* Position absolue pour un placement précis */
+	bottom: -5px; /* Décalage par rapport au bas */
+	left: 0; /* Aligné à gauche */
+	overflow: hidden; /* Cache le dépassement */
+	pointer-events: none; /* Ignorer les événements de pointage */
+	width: 100%;
+	height: 2px;
+}
+
+/* Animation for underline */
+.underline::before {
+	content: ''; /* Contenu vide pour la pseudo-élément */
+	position: absolute; /* Position absolue pour un placement précis */
+	top: 0; /* Aligné en haut */
+	left: inherit; /* Aligné à gauche */
+	display: block; /* Affiche comme un bloc */
+	width: inherit; /* Largeur héritée */
+	height: inherit; /* Hauteur héritée */
+	background-color: currentColor; /* Couleur de fond identique à la couleur actuelle */
+	transition: transform .4s ease-out; /* Transition pour l'effet de transformation */
+}
+
+/* Login switcher underline animation */
+.switcher-login .underline::before {
+	transform: translateX(101%); /* Translation pour l'état actif */
+}
+
+/* Signup switcher underline animation */
+.switcher-signup .underline::before {
+	transform: translateX(-101%); /* Translation pour l'état actif */
+}
+
+/* Active form wrapper underline animation */
+.form-wrapper.is-active .underline::before {
+	transform: translateX(0); /* Translation pour l'état actif */
+}
+
+/* General form styles */
+.form {
+	overflow: hidden; /* Cache le contenu débordant */
+	min-width: 260px; /* Largeur minimale */
+	margin-top: 50px; /* Marge en haut */
+	padding: 30px 25px; /* Remplissage interne */
+  	border-radius: 5px; /* Bordure arrondie */
+	transform-origin: top; /* Origine de la transformation */
+}
+
+/* Login form animation */
+.form-login {
+	animation: hideLogin .5s ease-out forwards; /* Animation pour masquer le formulaire de connexion */
+}
+
+/* Active login form animation */
+.form-wrapper.is-active .form-login {
+	animation: showLogin .5s ease-in forwards; /* Animation pour afficher le formulaire de connexion */
+}
+
+/* Keyframes for showing login form */
+@keyframes showLogin {
+	0% {
+		background: #fff; /* Fond blanc */
+		transform: translate(40%, 10px); /* Translation initiale */
+	}
+	50% {
+		transform: translate(0, 0); /* Translation à mi-chemin */
+	}
+	100% {
+		background-color: #90AFD4; /* Couleur de fond pour l'état actif */
+		transform: translate(35%, -20px); /* Translation finale */
+	}
+}
+
+/* Keyframes for hiding login form */
+@keyframes hideLogin {
+	0% {
+		background-color: #fff;
+		transform: translate(35%, -20px); /* Translation initiale */
+	}
+	50% {
+		transform: translate(0, 0); /* Translation à mi-chemin */
+	}
+	100% {
+		background: #d7e7f1;
+		transform: translate(40%, 10px); /* Translation finale */
+	}
+}
+
+/* Signup form animation */
+.form-signup {
+	animation: hideSignup .5s ease-out forwards; /* Animation pour masquer le formulaire d'inscription */
+}
+
+/* Active signup form animation */
+.form-wrapper.is-active .form-signup {
+	animation: showSignup .5s ease-in forwards; /* Animation pour afficher le formulaire d'inscription */
+}
+
+/* Keyframes for showing signup form */
+@keyframes showSignup {
+	0% {
+		background: #fff;
+		transform: translate(-40%, 10px) scaleY(.8); /* Translation et mise à l'échelle initiales */
+	}
+	50% {
+		transform: translate(0, 0) scaleY(.8); /* Translation et mise à l'échelle à mi-chemin */
+	}
+	100% {
+		background-color: #90AFD4;
+		transform: translate(-35%, -20px) scaleY(1); /* Translation et mise à l'échelle finales */
+	}
+}
+
+/* Keyframes for hiding signup form */
+@keyframes hideSignup {
+	0% {
+		background-color: #fff;
+		transform: translate(-35%, -20px) scaleY(1); /* Translation et mise à l'échelle initiales */
+	}
+	50% {
+		transform: translate(0, 0) scaleY(.8); /* Translation et mise à l'échelle à mi-chemin */
+	}
+	100% {
+		background: #d7e7f1;
+		transform: translate(-40%, 10px) scaleY(.8); /* Translation et mise à l'échelle finales */
+	}
+}
+
+/* Fieldset styles for forms */
+.form fieldset {
+	position: flex; /* Utilise Flexbox pour le positionnement */
+	justify-content: space-around; 
+	opacity: 0; /* Opacité initiale */
+	margin: 0; /* Aucune marge */
+	padding: 0; /* Aucun remplissage */
+	border: 0; /* Aucune bordure */
+	transition: all .5s ease-out; /* Transition douce pour tous les changements */
+}
+
+/* Login form fieldset position */
+.form-login fieldset {
+	transform: translateX(-50%); /* Translation pour le formulaire de connexion */
+}
+
+/* Signup form fieldset position */
+.form-signup fieldset {
+	transform: translateX(50%); /* Translation pour le formulaire d'inscription */
+}
+
+/* Active state for form fieldset */
+.form-wrapper.is-active fieldset {
+	opacity: 1; /* Opacité complète pour l'état actif */
+	transform: translateX(0); /* Aucune translation pour l'état actif */
+	transition: opacity .6s ease-in, transform .35s ease-in; /* Transitions pour l'état actif */
+}
+
+/* Styles for form legend (accessibility) */
+.form legend {
+	position: absolute; /* Position absolue pour l'accessibilité */
+	overflow: hidden; /* Cache le dépassement */
+	width: 1px; /* Largeur de 1 pixel */
+	height: 1px; /* Hauteur de 1 pixel */
+	clip: rect(0 0 0 0); /* Clip invisible */
+}
+
+/* Styles for input blocks in forms */
+.input-block {
+	margin: 20px; /* Marge en bas */
+}
+
+/* Label styles for input blocks */
+.input-block label {
+	font-size: 14px; /* Taille de police */
+	color: #ffffff; /* Couleur du texte (blanc) */
+}
+
+/* Input styles */
+.input-block input {
+	display: block; /* Affichage en bloc */
+	width: 100%;
+	margin-top: 8px; /* Marge en haut */
+	padding-right: 15px; /* Remplissage à droite */
+	padding-left: 15px; 
+	font-size: 16px;
+	line-height: 40px;
+	color: #3b4465;
+  	background: #ffffff; 
+  	border: 1px solid #cddbef;
+  	border-radius: 2px;
+}
+
+/* Submit button styles */
+.form [type='submit'] {
+	opacity: 0; /* Opacité initiale */
+	display: block; /* Affichage en bloc */
+	min-width: 120px; /* Largeur minimale */
+	margin: 30px auto 10px; /* Marge automatique */
+	font-size: 18px; 
+	line-height: 40px; /* Hauteur de ligne */
+	border-radius: 25px; /* Bordure arrondie */
+	border: none; /* Aucune bordure */
+	transition: all .5s ease-out; /* Transition douce */
+}
+
+/* Active state for submit button */
+.form-wrapper.is-active .form [type='submit'] {
+	opacity: 1; /* Opacité complète pour l'état actif */
+	transform: translateX(0); /* Aucune translation pour l'état actif */
+	transition: all .6s ease-in; /* Transition pour l'état actif */
+}
+
+/* Login button styles */
+.btn-login {
+	color: #fbfdff; 
+	background: #375F90; 
+	transform: translateX(-30%); /* Translation pour le bouton de connexion */
+}
+
+/* Signup button styles */
+.btn-signup {
+	color: #fbfdff;
+	background: #375F90;
+	box-shadow: inset 0 0 0 2px #375F90;
+	transform: translateX(30%); /* Translation pour le bouton d'inscription */
 }

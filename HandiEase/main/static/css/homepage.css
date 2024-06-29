@@ -1,0 +1,195 @@
+/* Body styles */
+body {
+	margin: 0; /* Supprime les marges par défaut */
+	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; /* Police de caractères par défaut */
+	background: #ffffff;
+}
+
+
+/* Style pour le header */
+header {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+	top: 0; 
+    box-shadow: 0 4px 6px #000000d6;
+    width: 100%;
+    z-index: 1000;
+	position: fixed;
+}
+
+/* Style pour la barre de navigation */
+.topnav nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.topnav h1 {
+    font-size: 48px;
+    color: #375F90;
+    margin: 0;
+	padding-left: 1%;
+}
+
+/* Style pour le formulaire de recherche */
+.topnav form {
+    display: flex;
+    align-items: center;
+}
+
+.topnav input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #cddbef;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-size: 16px;
+    color: #3b4465;
+    background-color: #ffffff;
+}
+
+.topnav button[type="submit"] {
+    padding: 8px 16px;
+    background-color: #375F90;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.topnav button[type="submit"]:hover {
+    background-color: #2b4f75;
+}
+
+/* Style pour la section de login / register */
+.login-register {
+    display: flex;
+    align-items: center;
+}
+
+.login-register p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    margin-right: 16px;
+}
+
+.login-register button {
+    padding: 8px 16px;
+    background-color: #375F90;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-register button#logoutButton {
+    background-color: #dc3545;
+}
+
+.login-register button:hover {
+	background-color: #2b4f75;
+}
+
+/* Style pour le contenu "à propos" de la page */
+.section {
+    padding: 60px 20px;
+    background-color: #ffffff;
+    color: #3b4465;
+    text-align: center;
+    box-shadow: 0 4px 6px #000000d3;
+    margin: 20px auto;
+    max-width: 1200px;
+    border-radius: 10px;
+}
+
+.section h2 {
+    font-size: 26px;
+    color: #375F90;
+    margin-bottom: 20px;
+}
+
+.section p {
+    font-size: 16px;
+    color: #3b4465;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+/* Styles pour la liste d'articles */
+.articles-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+/* Styles pour chaque article */
+.article {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px #000000d3;
+    border-radius: 8px;
+}
+
+.article h3 {
+    font-size: 18px;
+    color: #375F90;
+    margin-bottom: 10px;
+	
+}
+
+.article p {
+    font-size: 14px;
+    color: #3b4465;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.article p a {
+    color: #375F90;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.article p a:hover {
+    color: #1c3753;
+}
+
+.article p strong {
+    font-weight: bold;
+}
+
+.article li {
+    display: none;
+}
+
+::marker {
+    display: none;
+}
+
+.article form {
+    margin-top: 10px;
+}
+
+.article form button {
+    padding: 8px 16px;
+    background-color: #375F90;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.article form button:hover {
+    background-color: #2b4f75;
+}

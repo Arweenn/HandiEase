@@ -51,18 +51,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSRF_COOKIE_NAME = 'csrftoken'
-CSRF_HEADER_NAME = 'HTTP_X_CSRFTOKEN'
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_CACHE_ALIAS = "default"
-
-# Autres configurations de cookies
-SESSION_COOKIE_NAME = 'sessionid'
-SESSION_COOKIE_AGE = 1209600  # Deux semaines
-SESSION_COOKIE_HTTPONLY = True
-SESSION_SAVE_EVERY_REQUEST = True
-
-
 
 ROOT_URLCONF = 'HandiEase.urls'
 
@@ -141,5 +129,3 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-APPEND_SLASH=False

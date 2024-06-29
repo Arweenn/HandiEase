@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     var authPopup = document.getElementById('authPopup');
     var openAuthPopup = document.getElementById('openAuthPopup');
-    var close = document.getElementsByClassName('close')[0];
-    var loginForm = document.getElementById('loginForm');
-    var registerForm = document.getElementById('registerForm');
+    var close = document.getElementById('closeAuthPopup');
+    var loginForm = document.querySelector('.form-login');
+    var registerForm = document.querySelector('.form-signup');
     var logoutButton = document.getElementById('logoutButton');
+
     loginForm.action = '/login/';
     registerForm.action = '/register/';
-
 
     if (openAuthPopup) {
         openAuthPopup.onclick = function () {
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function handleLogFormSubmit(event, form, redirectUrl) {
+    function handleLogFormSubmit(event, form, RedirectUrl) {
         event.preventDefault();
         var formData = new FormData(form);
         const form_data = new URLSearchParams();
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }).then(data => {
             if (data.success) {
-                window.location.reload(); // Redirection après succès
+                window.location.reload(RedirectUrl); // Redirection après succès
             } else {
                 alert(data.message);
             }
@@ -126,4 +126,13 @@ document.addEventListener('DOMContentLoaded', function () {
             })
         });
     }
+
+    const switchers = [...document.querySelectorAll('.switcher')]
+
+    switchers.forEach(item => {
+        item.addEventListener('click', function() {
+            switchers.forEach(item => item.parentElement.classList.remove('is-active'))
+            this.parentElement.classList.add('is-active')
+        })
+    });
 });

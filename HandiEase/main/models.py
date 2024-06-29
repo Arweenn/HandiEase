@@ -26,6 +26,14 @@ class Article(models.Model):
             models.Index(fields=['source']),  # Index pour améliorer la recherche par source
         ]
 
+# Modèle pour les tags catégorisant
+class Tag(models.Model):
+    name = models.CharField(max_length=255)
+
+
+    def __str__(self):
+        return self.name  # Représentation sous forme de chaîne du nom du tag
+
 
 # Modèle pour la liste de lecture
 class ReadingList(models.Model):
