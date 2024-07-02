@@ -11,9 +11,8 @@ def getRSS():
         'https://www.handicap.fr/rss',
         'https://handirect.fr/feed',
         'https://actus.handicap.fr/rss',
-        'https://www.carenews.com/taxonomy/term/27534/feed',
         'https://www.lemonde.fr/handicap/rss_full.xml',
-        'https://www.francebleu.fr/rss/handicap.xml',
+        'https://www.francebleu.fr/rss',
         'https://www.faire-face.fr/feed/',
         'https://www.unapei.org/flux-rss/',
         'https://www.cnsa.fr/restons-connectes',
@@ -51,7 +50,8 @@ def parse_article(article):
         'summary': getattr(article, 'summary', ''),
         'content': getattr(article, 'content', ''),
         'source': getattr(article, 'source', {}).get('title', ''),
-        'published': parse_published_date(getattr(article, 'published', None))
+        'published': parse_published_date(getattr(article, 'published', None)),
+        'tags': tags(article),
     }
 
     return formatted_article
@@ -93,7 +93,6 @@ def parse_published_date(published):
 # Fonction pour filtrer les articles par requête de recherche
 def filter_articles_by_query(articles, query):
 
-    print(query)
     if not query:
         return articles
 
@@ -102,7 +101,6 @@ def filter_articles_by_query(articles, query):
     for article in articles:
         if query.lower() in article['title'].lower() or query.lower() in article['summary'].lower():
             filtered_articles.append(article)
-            print(article['title'] + "1")
 
     return filtered_articles
 
@@ -120,6 +118,10 @@ def tags(article):
         tags.append('accessibilité')
     if "sport" in article['title'].lower() or "sport" in article['summary'].lower():
         tags.append('sport')
+    if "emploi" in article['title'].lower() or "emploi" in article['summary'].lower():
+        tags.append('emploi')
+    if "mobilité" in article['title'].lower() or "mobilité" in article['summary'].lower():
+        tags.append('mobilité')
 
     return tags
 

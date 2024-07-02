@@ -24,7 +24,7 @@ def home(request):
         articles = filter_articles_by_tag(articles, tag_name)
     
     # Pagination
-    paginator = Paginator(articles, 8)
+    paginator = Paginator(articles, 10)
     page_num = request.GET.get('page')
 
     try:

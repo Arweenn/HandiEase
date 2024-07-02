@@ -2,19 +2,21 @@
 body {
 	margin: 0; /* Supprime les marges par défaut */
 	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; /* Police de caractères par défaut */
-	background: #ffffff;
+    background-color: #F7FCFF;
+    backdrop-filter: blur(3px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='411' height='411' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23A1B0C8' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%238FA1B6'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E");
 }
-
 
 /* Style pour le header */
 header {
     background-color: #f8f9fa;
     padding: 20px 0;
-	top: 0; 
-    box-shadow: 0 4px 6px #000000d6;
+	top: 0;
+    margin: 0;
+    box-shadow: 0 4px 6px #00000017;
     width: 100%;
     z-index: 1000;
-	position: fixed;
+	position: sticky;
 }
 
 /* Style pour la barre de navigation */
@@ -99,28 +101,67 @@ header {
 
 /* Style pour le contenu "à propos" de la page */
 .section {
-    padding: 60px 20px;
-    background-color: #ffffff;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 3px;
+    background-color: #f8f9fa;
     color: #3b4465;
     text-align: center;
-    box-shadow: 0 4px 6px #000000d3;
-    margin: 20px auto;
+    box-shadow: 0 4px 6px #00000017;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 1200px;
     border-radius: 10px;
+    list-style: none;
 }
 
-.section h2 {
+.h2 {
     font-size: 26px;
     color: #375F90;
     margin-bottom: 20px;
 }
 
-.section p {
-    font-size: 16px;
-    color: #3b4465;
-    line-height: 1.6;
+/* Styles for the topics categories menu */
+.topics {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px #00000017;
+    margin-bottom: 20px;
+}
+
+.topics .container {
+    max-width: 1200px;
     margin: 0 auto;
-    max-width: 800px;
+    padding: 0 20px;
+}
+
+.topics .row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.topics a {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #375F90;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.topics a:not(.selected):hover {
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #375F90;
+    color: white;
+}
+
+.topics a.selected {
+    background-color: #375F90;
+    color: white;
 }
 
 /* Styles pour la liste d'articles */
@@ -133,10 +174,11 @@ header {
 /* Styles pour chaque article */
 .article {
     background-color: #ffffff;
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 6px #000000d3;
+    box-shadow: 0 4px 6px #00000017;
     border-radius: 8px;
+    text-align: left;
 }
 
 .article h3 {
@@ -150,12 +192,17 @@ header {
     font-size: 14px;
     color: #3b4465;
     line-height: 1.6;
+    margin-left: 20px;
+    margin-right: 20px;
     margin-bottom: 10px;
+    text-align: justify;
+    /* max-width: 800px; */
 }
 
 .article p a {
-    color: #375F90;
+    color: #487dbd;
     text-decoration: none;
+    text-align: justify;
     transition: color 0.3s ease;
 }
 
@@ -165,14 +212,6 @@ header {
 
 .article p strong {
     font-weight: bold;
-}
-
-.article li {
-    display: none;
-}
-
-::marker {
-    display: none;
 }
 
 .article form {
@@ -192,4 +231,104 @@ header {
 
 .article form button:hover {
     background-color: #2b4f75;
+}
+
+/* Styles for the pagination */
+.pagination {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    margin: 40px 0;
+}
+
+.step-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.step-links button {
+    padding: 8px 16px;
+    background-color: #375F90;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.step-links button:hover {
+    background-color: #2b4f75;
+}
+
+.step-links button a {
+    color: white;
+    text-decoration: none;
+}
+
+.current {
+    font-size: 16px;
+    color: #3b4465;
+    margin: 0 10px;
+}
+
+.back-to-home {
+    margin-left: 20px;
+}
+
+.back-to-home button {
+    padding: 8px 16px;
+    background-color: #375F90;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.back-to-home button:hover {
+    background-color: #2b4f75;
+}
+
+.back-to-home button a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Styles for the footer */
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 30px 20px;
+    box-shadow: 0 -4px 6px #00000017;
+    text-align: center;
+    margin-top: 0px;
+}
+
+footer h4 {
+    font-size: 20px;
+    color: #375F90;
+    margin: 30px;
+}
+
+footer p {
+    font-size: 14px;
+    color: #3b4465;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 20px;
+    text-align: justify;
+}
+
+footer a {
+    color: #487dbd;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #1c3753;
 }
