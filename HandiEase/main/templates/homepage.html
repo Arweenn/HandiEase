@@ -44,6 +44,7 @@
     <section id="about" class="section">
         <div class="about">
             <h2>A Propos</h2>
+            <img src="{% static 'images/about.jpg' %}" alt="HandiEase" class="about-img">
             <p>
                 HandiEase est un site web accessible et inclusif, dédié à centraliser les articles sur le handicap.
                 Conçu pour être entièrement adapté aux personnes en situation de handicap, HandiEase facilite l'accès à l'information pertinente en un seul endroit.
@@ -59,16 +60,17 @@
     {% if user.is_authenticated %}
     <section id="liste" class="section">
         <h2>Liste de lecture</h2>
-        <ul>
-            {% for item in reading_list_items %}
-                <li>
-                    <h3><a href="{{ article.link }}" target="_blank">{{ item.article.title }}</a></h3>
-                    <form method="post" action="{% url 'homepage' %}">
-                        {% csrf_token %}
-                        <button type="submit">Retirer de la liste de lecture</button>
-                    </form>
-                </li>
-            {% endfor %}
+        <ul id="reading-list">
+            {% if reading_list %}
+                {% for article_title in reading_list %}
+                    <li data-article-title="{{ article_title }}">
+                        {{ article_title }}
+                        <button class="remove-from-reading-list">Retirer</button>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li id="no-articles-message">Aucun article dans votre liste de lecture.</li>
+            {% endif %}
         </ul>
     </section>
     {% endif %}
@@ -91,28 +93,26 @@
                     </div>
                 </div>
             </div>
-            {% for article in articles %}
-                <li>
-                    <div class="article">
-                        <h3>{{ article.title }}</h3>
-                            <p>{{ article.summary|safe }}</p>
-                            <p><a href="{{ article.link }}" target="_blank">Lire l'article complet</a></p>
-                        {% if article.published %}
-                            <p><strong> Publié le: </strong>{{ article.published }}</p>
-                        {% endif %}
-                        {% if article.source %}
-                            <p><strong> Source: </strong>{{ article.source }}</a></p>
-                        {% endif %}
-                        {% if user.is_authenticated %}
-                            <form method="post" action="{% url 'homepage' %}">
-                                {% csrf_token %}
-                                <button type="submit">Ajouter à la liste de lecture</button>
-                            </form>
-                        {% endif %}
-                    </div>
-                </li>
-            {% endfor %}
-
+            <ul id="article-list">
+                {% for article in articles %}
+                    <li data-article-title="{{ article.title }}">
+                        <div class="article">
+                            <h3>{{ article.title }}</h3>
+                                <p>{{ article.summary|safe }}</p>
+                                <p><a href="{{ article.link }}" target="_blank">Lire l'article complet</a></p>
+                            {% if article.published %}
+                                <p><strong> Publié le: </strong>{{ article.published }}</p>
+                            {% endif %}
+                            {% if article.source %}
+                                <p><strong> Source: </strong>{{ article.source }}</a></p>
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                                <button class="add-to-reading-list">Ajouter à la liste de lecture</button>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
 
         <!-- Article Pagination -->
         <div class="pagination">
@@ -204,7 +204,8 @@
 
 
 <footer>
-    <div class="disclaimer">
+    <img src="{% static 'images/footer.jpg' %}" alt="HandiEase" class="footer-img">
+    <div class="credits">
         <h4>Crédits</h4>
             <p>
             Les informations présentées sur ce site sont agrégées à partir de divers flux RSS de sources externes.
@@ -214,17 +215,22 @@
             Si vous êtes le propriétaire du contenu et avez des questions ou des préoccupations concernant l'utilisation de votre contenu sur notre site,
             veuillez nous contacter directement par <a href="mailto:7459@holbertonstudents.com" target="_top">mail</a>.
             </p>
-    </div>
-
-    <div class="credits">
-        <p>
-        Ce site a été créé par Arwen Dumont, dans le cadre d'un projet étudiant Développeur Web & Web Mobile, à <a href="https://www.holbertonschool.com/" target="_blank">Holberton School</a>.
-        Vous pouvez retrouver le code source du projet sur <a href="https://github.com/Arweenn/HandiEase-Portfolio" target="_blank">GitHub</a>.
-        </p>
+            <p>
+            Ce site a été créé par Arwen Dumont, dans le cadre d'un projet étudiant Développeur Web & Web Mobile, à <a href="https://www.holbertonschool.com/" target="_blank">Holberton School</a>.
+            Vous pouvez retrouver le code source du projet sur <a href="https://github.com/Arweenn/HandiEase-Portfolio" target="_blank">GitHub</a>.
+            </p>
     </div>
 </footer>
 
 <script src="{% static 'js/homepage.js' %}"></script>
 <script src="{% static 'js/authPopup.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    var addToReadingListUrl = "{% url 'add_to_reading_list' %}";
+    var removeFromReadingListUrl = "{% url 'remove_from_reading_list' %}";
+    var csrfToken = "{{ csrf_token }}";
+</script>
+<script src="{% static 'js/readingList.js' %}"></script>
 
 </html>

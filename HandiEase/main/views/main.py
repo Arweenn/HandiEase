@@ -3,8 +3,8 @@
 from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
-from .fetchArticles import getRSS, filter_articles_by_query, filter_articles_by_tag
-from ..models import Tag
+from .fetchArticles import getRSS, filter_articles_by_query
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -17,11 +17,7 @@ def home(request):
 
     # Filtrage des articles, fonction de recherche
     query = request.GET.get('q', '')
-    tag_name = request.GET.get('tag', '')
-
     articles = filter_articles_by_query(rss_articles, query)
-    if tag_name:
-        articles = filter_articles_by_tag(articles, tag_name)
     
     # Pagination
     paginator = Paginator(articles, 10)
@@ -37,8 +33,6 @@ def home(request):
     context = {
         'articles': articles,
         'query': query,
-        'tag_name': tag_name,
-        'tags': Tag.objects.all(),
         'user': request.user if request.user else None
     }
 

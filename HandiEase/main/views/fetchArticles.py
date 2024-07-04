@@ -51,7 +51,6 @@ def parse_article(article):
         'content': getattr(article, 'content', ''),
         'source': getattr(article, 'source', {}).get('title', ''),
         'published': parse_published_date(getattr(article, 'published', None)),
-        'tags': tags(article),
     }
 
     return formatted_article
@@ -103,36 +102,3 @@ def filter_articles_by_query(articles, query):
             filtered_articles.append(article)
 
     return filtered_articles
-
-
-# Vue pour catégoriser les articles
-def tags(article):
-
-    tags = []
-
-    if "handicap" in article['title'].lower() or "handicap" in article['summary'].lower():
-        tags.append('handicap')
-    if "inclusion" in article['title'].lower() or "inclusion" in article['summary'].lower():
-        tags.append('inclusion')
-    if "accessibilité" in article['title'].lower() or "accessibilité" in article['summary'].lower():
-        tags.append('accessibilité')
-    if "sport" in article['title'].lower() or "sport" in article['summary'].lower():
-        tags.append('sport')
-    if "emploi" in article['title'].lower() or "emploi" in article['summary'].lower():
-        tags.append('emploi')
-    if "mobilité" in article['title'].lower() or "mobilité" in article['summary'].lower():
-        tags.append('mobilité')
-
-    return tags
-
-
-# Vue pour filtrer les articles par tag
-def filter_articles_by_tag(articles, tag_name):
-
-    tagged_articles = []
-
-    for article in articles:
-        if tag_name.lower() in [tag.name.lower() for tag in article['tags']]:
-            tagged_articles.append(article)
-
-    return tagged_articles
