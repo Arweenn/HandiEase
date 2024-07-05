@@ -6,6 +6,7 @@ from main.views import main, authentication, readingList
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', main.home, name='homepage'),
+    path('dashboard/', main.dashboard_view, name='dashboard'),
     path('register/', authentication.register_view, name="register_view"),
     path('login/', authentication.login_view, name="login_view"),
     path('logout/', authentication.logout_view, name="logout_view"),

@@ -2,6 +2,7 @@
 
 from dateutil import parser as date_parser
 from dateutil.tz import tzutc
+from ..models import Article
 import feedparser
 
 
@@ -12,10 +13,8 @@ def getRSS():
         'https://handirect.fr/feed',
         'https://actus.handicap.fr/rss',
         'https://www.lemonde.fr/handicap/rss_full.xml',
-        'https://www.francebleu.fr/rss',
         'https://www.faire-face.fr/feed/',
         'https://www.unapei.org/flux-rss/',
-        'https://www.cnsa.fr/restons-connectes',
     ]
 
     formatted_articles = []
@@ -32,6 +31,16 @@ def getRSS():
                 continue
 
             formatted_article = parse_article(article)
+            article_title = formatted_article['title']
+            article_link = formatted_article['link']
+
+            if not Article.objects.filter(title=article_title, link=article_link).exists():
+                saved_article = Article(
+                    title=article_title,
+                    link=article_link,
+                )
+                saved_article.save()
+
             filtered_article = filter_image_from_article(formatted_article)
             formatted_articles.append(filtered_article)
 

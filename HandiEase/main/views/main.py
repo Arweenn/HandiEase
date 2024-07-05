@@ -4,7 +4,7 @@ from django.core.cache import cache
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render
 from .fetchArticles import getRSS, filter_articles_by_query
-from django.contrib.auth.decorators import login_required
+from ..models import ReadingList
 
 
 def home(request):
@@ -37,3 +37,14 @@ def home(request):
     }
 
     return render(request, 'homepage.html', context)
+
+
+def dashboard_view(request):
+    if request.user.is_authenticated:
+        reading_list, created = ReadingList.objects.get_or_create(user=request.user)
+        articles = reading_list.articles.all()
+        print("Articles in reading list:", articles)  # Ajoutez cette ligne pour vérifier les articles récupérés
+    else:
+        articles = []
+
+    return render(request, 'dashboard.html', {'articles': articles})

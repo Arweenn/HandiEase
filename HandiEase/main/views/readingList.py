@@ -4,58 +4,71 @@ import logging
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
+from ..models import Article, ReadingList
 
 logger = logging.getLogger(__name__)
 
 
 @login_required
-@require_POST
 def add_to_reading_list(request):
-    article_title = request.POST.get('article_title')
-    if not article_title:
-        return JsonResponse({'status': 'error', 'message': 'Titre de l\'article non fourni.'})
+    if request.method == 'POST':
+        article_title = request.POST.get('article_title')
+        
+        try:
+            article = Article.objects.get(title=article_title)
+        except Article.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': "L'article n'existe pas."})
 
-    reading_list = request.session.get('reading_list', [])
-    if article_title not in reading_list:
-        reading_list.append(article_title)
-        request.session['reading_list'] = reading_list
-        print(f"Article ajouté: {article_title}")
-        print(f"Liste de lecture actuelle: {request.session['reading_list']}")
+        reading_list, created = ReadingList.objects.get_or_create(user=request.user)
+        
+        # Vérifier si l'article est déjà dans la liste de lecture
+        if article not in reading_list.articles.all():
+            reading_list.articles.add(article)
+            message = "L'article a été ajouté à votre liste de lecture."
+        else:
+            message = "L'article est déjà dans votre liste de lecture."
 
-        return JsonResponse({'status': 'success', 'message': 'Article ajouté à votre liste de lecture.'})
-    else:
-        return JsonResponse({'status': 'info', 'message': 'Cet article est déjà dans votre liste de lecture.'})
+        return JsonResponse({'status': 'success', 'message': message})
+    return JsonResponse({'status': 'error', 'message': 'Requête invalide.'})
+
 
 @login_required
-@require_POST
 def remove_from_reading_list(request):
-    article_title = request.POST.get('article_title')
-    print("Article title received for removal: ", article_title)
-    
-    if not article_title:
-        return JsonResponse({'status': 'error', 'message': 'Titre de l\'article non fourni.'})
+    if request.method == 'POST':
+        article_title = request.POST.get('article_title')
+        
+        try:
+            article = Article.objects.get(title=article_title)
+        except Article.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': "L'article n'existe pas."})
 
-    reading_list = request.session.get('reading_list', [])
-    if article_title in reading_list:
-        reading_list.remove(article_title)
-        request.session['reading_list'] = reading_list
+        try:
+            reading_list = ReadingList.objects.get(user=request.user)
+        except ReadingList.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Liste de lecture introuvable.'})
 
-        # Ajout du message de debug
-        print(f"Article retiré: {article_title}")
-        print(f"Liste de lecture actuelle: {request.session['reading_list']}")
-
-        return JsonResponse({'status': 'success', 'message': 'Article retiré de votre liste de lecture.'})
-    else:
-        return JsonResponse({'status': 'info', 'message': 'Cet article n\'est pas dans votre liste de lecture.'})
-
+        if article in reading_list.articles.all():
+            reading_list.articles.remove(article)
+            return JsonResponse({'status': 'success', 'message': "L'article a été retiré de votre liste de lecture."})
+        else:
+            return JsonResponse({'status': 'error', 'message': "L'article n'est pas dans votre liste de lecture."})
+    return JsonResponse({'status': 'error', 'message': 'Requête invalide.'})
 
 
 @login_required
 def reading_list(request):
-    reading_list = request.session.get('reading_list', [])
-    context = {
-        'reading_list': reading_list,
-    }
-    return render(request, 'reading_list.html', context)
+    try:
+        reading_list = ReadingList.objects.get(user=request.user)
+        articles = reading_list.articles.all()
+        context = {
+            'reading_list': articles,
+        }
+        return render(request, 'reading_list.html', context)
+
+    except ReadingList.DoesNotExist:
+        # Si la liste de lecture n'existe pas encore pour cet utilisateur, retourner une liste vide
+        context = {
+            'reading_list': [],
+        }
+        return render(request, 'reading_list.html', context)
 

@@ -17,7 +17,7 @@ class Article(models.Model):
 # Modèle pour la liste de lecture
 class ReadingList(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     articles = models.ManyToManyField(Article)
 
 

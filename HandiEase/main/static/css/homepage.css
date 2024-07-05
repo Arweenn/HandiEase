@@ -1,5 +1,7 @@
 * {
     list-style: none;
+    scrollbar-width: thin; /* "auto" ou "thin" (selon le navigateur) */
+    scrollbar-color: #2b4f75 #F5F5F5; /* Couleur de la scrollbar (thumb track) */
 }
 
 /* Body styles */
@@ -9,7 +11,6 @@ body {
     background-color: #F7FCFF;
     backdrop-filter: blur(3px);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='411' height='411' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23A1B0C8' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%238FA1B6'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E");
-    list-style: none;
 }
 
 /* Style pour le header */
@@ -41,7 +42,15 @@ header {
 	padding-left: 1%;
 }
 
+.topnav a {
+    text-decoration: none;
+}
+
 /* Style pour le formulaire de recherche */
+.search-label {
+    display: none;
+}
+
 .topnav form {
     display: flex;
     align-items: center;
@@ -70,6 +79,40 @@ header {
 
 .topnav button[type="submit"]:hover {
     background-color: #2b4f75;
+}
+
+#move-to-top-button {
+    position: fixed;
+    right: 25px;
+    bottom: -50px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #436a9a;
+    cursor: pointer;
+    transition: bottom 0.25s ease;
+}
+
+#move-to-top-button:hover {
+    background-color: #2b4f75;
+}
+
+#move-to-top-button:active {
+    transform: scale(0.95);
+}
+
+#move-to-top-button img {
+    width: 25px;
+}
+
+/* Move to top button responsive */
+@media (max-width: 768px) {
+    #move-to-top-button {
+        display: none;
+    }
 }
 
 /* Style pour la section de login / register */
@@ -104,7 +147,7 @@ header {
 	background-color: #2b4f75;
 }
 
-/* Style pour le contenu "à propos" de la page */
+/* Styles pour les sections */
 .section {
     padding-top: 10px;
     padding-left: 20px;
@@ -121,6 +164,18 @@ header {
     max-width: 1200px;
     border-radius: 10px;
     list-style: none;
+}
+
+/* Style pour le contenu "à propos" de la page */
+.about {
+    align-items: center;
+    justify-content: center;
+}
+
+.about p {
+    text-align: justify;
+    margin-left: 60px;
+    margin-right: 60px;
 }
 
 .about-img {
@@ -211,14 +266,14 @@ header {
 }
 
 .article p a {
-    color: #487dbd;
+    color: #3873bb;
     text-decoration: none;
     text-align: justify;
     transition: color 0.3s ease;
 }
 
 .article p a:hover {
-    color: #1c3753;
+    color: #142b44;
 }
 
 .article p strong {
@@ -244,6 +299,55 @@ header {
     background-color: #2b4f75;
 }
 
+/* Styles pour les boutons d'ajout et de retrait */
+.add-to-reading-list,
+.remove-from-reading-list {
+    padding: 8px 16px;
+    background-color: #375F90;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: block;
+}
+
+.add-to-reading-list:hover,
+.remove-from-reading-list:hover {
+    background-color: #2b4f75;
+}
+
+.add-to-reading-list a,
+.remove-from-reading-list a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Container pour la liste de lecture */
+#reading-list-section {
+    margin-top: 20px; /* Ajout de marge en haut pour l'espacement */
+}
+
+/* Style pour chaque élément de la liste de lecture */
+#reading-list li {
+    margin-bottom: 10px; /* Espacement entre chaque élément de la liste */
+    display: flex; /* Utilisation de flexbox pour aligner les éléments */
+    align-items: center; /* Alignement vertical des éléments */
+    justify-content: space-between; /* Espacement égal entre le titre et le bouton */
+}
+
+#reading-list li .article-title {
+    color: #3873bb;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#reading-list li .article-title:hover {
+    color: #142b44;
+}
+
 /* Styles for the pagination */
 .pagination {
     display: flex;
@@ -258,7 +362,7 @@ header {
     gap: 10px;
 }
 
-.step-links button {
+.button {
     padding: 8px 16px;
     background-color: #375F90;
     color: white;
@@ -270,11 +374,11 @@ header {
     text-decoration: none;
 }
 
-.step-links button:hover {
+.button:hover {
     background-color: #2b4f75;
 }
 
-.step-links button a {
+.button a {
     color: white;
     text-decoration: none;
 }
@@ -320,35 +424,36 @@ footer {
 }
 
 .credits {
-    padding: 20px;
-    text-align: justify;
+    padding: 10px;
     max-width: 800px;
 }
 
 .credits h4 {
     font-size: 20px;
     color: #375F90;
-    padding: 20px;
+    padding: 10px;
+    text-align: center;
 }
 
 .credits p {
+    text-align: justify;
     font-size: 14px;
     color: #3b4465;
     line-height: 1.6;
 }
 
 footer a {
-    color: #487dbd;
+    color: #3873bb;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 footer a:hover {
-    color: #1c3753;
+    color: #142b44;
 }
 
 .footer-img {
-    width: 25%;
+    width: 35%;
     height: auto;
     border-radius: 10px;
 }
@@ -369,4 +474,22 @@ footer a:hover {
         width: 80%;
         margin-bottom: 20px;
     }
+}
+
+/* Stylisation de la barre de défilement */
+::-webkit-scrollbar {
+    width: 10px;
+	background-color: #F5F5F5;
+    border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border: 1px solid black;
+	background-color: #F5F5F5;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+    background-color: #000000;
 }
