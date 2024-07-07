@@ -1,31 +1,33 @@
+/* Global Styles */
 * {
     list-style: none;
-    scrollbar-width: thin; /* "auto" ou "thin" (selon le navigateur) */
+    scrollbar-width: auto; /* "auto" ou "thin" (selon le navigateur) */
     scrollbar-color: #2b4f75 #F5F5F5; /* Couleur de la scrollbar (thumb track) */
+    scroll-behavior: smooth; /* Scroll fluide */
 }
 
-/* Body styles */
+/* Body Styles */
 body {
-	margin: 0; /* Supprime les marges par défaut */
-	font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; /* Police de caractères par défaut */
+    margin: 0; /* Supprime les marges par défaut */
+    font-family: Roboto, -apple-system, 'Helvetica Neue', 'Segoe UI', Arial, sans-serif; /* Police de caractères par défaut */
     background-color: #F7FCFF;
     backdrop-filter: blur(3px);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='411' height='411' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23A1B0C8' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%238FA1B6'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* Style pour le header */
+/* Header Styles */
 header {
     background-color: #f8f9fa;
     padding: 20px 0;
-	top: 0;
+    top: 0;
     margin: 0;
     box-shadow: 0 4px 6px #00000017;
     width: 100%;
     z-index: 1000;
-	position: sticky;
+    position: sticky;
 }
 
-/* Style pour la barre de navigation */
+/* Navigation Styles */
 .topnav nav {
     display: flex;
     justify-content: space-between;
@@ -39,14 +41,14 @@ header {
     font-size: 48px;
     color: #375F90;
     margin: 0;
-	padding-left: 1%;
+    padding-left: 1%;
 }
 
 .topnav a {
     text-decoration: none;
 }
 
-/* Style pour le formulaire de recherche */
+/* Search Form Styles */
 .search-label {
     display: none;
 }
@@ -81,6 +83,7 @@ header {
     background-color: #2b4f75;
 }
 
+/* Move to Top Button Styles */
 #move-to-top-button {
     position: fixed;
     right: 25px;
@@ -108,14 +111,7 @@ header {
     width: 25px;
 }
 
-/* Move to top button responsive */
-@media (max-width: 768px) {
-    #move-to-top-button {
-        display: none;
-    }
-}
-
-/* Style pour la section de login / register */
+/* Login/Register Styles */
 .login-register {
     display: flex;
     align-items: center;
@@ -144,10 +140,10 @@ header {
 }
 
 .login-register button:hover {
-	background-color: #2b4f75;
+    background-color: #2b4f75;
 }
 
-/* Styles pour les sections */
+/* Section Styles */
 .section {
     padding-top: 10px;
     padding-left: 20px;
@@ -166,7 +162,7 @@ header {
     list-style: none;
 }
 
-/* Style pour le contenu "à propos" de la page */
+/* About Section Styles */
 .about {
     align-items: center;
     justify-content: center;
@@ -190,7 +186,7 @@ header {
     margin-bottom: 20px;
 }
 
-/* Styles for the topics categories menu */
+/* Topics Menu Styles */
 .topics {
     background-color: #f8f9fa;
     padding: 20px 0;
@@ -230,14 +226,14 @@ header {
     color: white;
 }
 
-/* Styles pour la liste d'articles */
+/* Articles List Styles */
 .articles-list {
     list-style-type: none;
     padding: 0;
     margin-top: 20px;
 }
 
-/* Styles pour chaque article */
+/* Individual Article Styles */
 .article {
     background-color: #ffffff;
     padding: 10px;
@@ -251,7 +247,6 @@ header {
     font-size: 18px;
     color: #375F90;
     margin-bottom: 10px;
-	
 }
 
 .article p {
@@ -299,7 +294,7 @@ header {
     background-color: #2b4f75;
 }
 
-/* Styles pour les boutons d'ajout et de retrait */
+/* Reading List Button Styles */
 .add-to-reading-list,
 .remove-from-reading-list {
     padding: 8px 16px;
@@ -311,7 +306,6 @@ header {
     cursor: pointer;
     transition: background-color 0.3s ease;
     text-decoration: none;
-    display: block;
 }
 
 .add-to-reading-list:hover,
@@ -325,12 +319,12 @@ header {
     text-decoration: none;
 }
 
-/* Container pour la liste de lecture */
+/* Reading List Section Styles */
 #reading-list-section {
     margin-top: 20px; /* Ajout de marge en haut pour l'espacement */
 }
 
-/* Style pour chaque élément de la liste de lecture */
+/* Reading List Item Styles */
 #reading-list li {
     margin-bottom: 10px; /* Espacement entre chaque élément de la liste */
     display: flex; /* Utilisation de flexbox pour aligner les éléments */
@@ -348,7 +342,7 @@ header {
     color: #142b44;
 }
 
-/* Styles for the pagination */
+/* Pagination Styles */
 .pagination {
     display: flex;
     justify-content: right;
@@ -414,7 +408,7 @@ header {
     text-decoration: none;
 }
 
-/* Styles for the footer */
+/* Footer Styles */
 footer {
     background-color: #f8f9fa;
     box-shadow: 0 -4px 6px #00000017;
@@ -425,6 +419,7 @@ footer {
 
 .credits {
     padding: 10px;
+    padding-right: 80px;
     max-width: 800px;
 }
 
@@ -453,13 +448,17 @@ footer a:hover {
 }
 
 .footer-img {
-    width: 35%;
+    width: 30%;
     height: auto;
     border-radius: 10px;
 }
 
-/* Responsive */
+/* Responsive Styles */
 @media (max-width: 768px) {
+    #move-to-top-button {
+        display: none;
+    }
+
     footer {
         flex-direction: column;
         align-items: center;
@@ -472,24 +471,23 @@ footer a:hover {
 
     .footer-img {
         width: 80%;
-        margin-bottom: 20px;
     }
 }
 
-/* Stylisation de la barre de défilement */
+/* Scrollbar Styles */
 ::-webkit-scrollbar {
     width: 10px;
-	background-color: #F5F5F5;
+    background-color: #F5F5F5;
     border-radius: 5px;
 }
 
-/* Track */
+/* Scrollbar Track */
 ::-webkit-scrollbar-track {
     border: 1px solid black;
-	background-color: #F5F5F5;
+    background-color: #F5F5F5;
 }
 
-/* Thumb */
+/* Scrollbar Thumb */
 ::-webkit-scrollbar-thumb {
     background-color: #000000;
 }

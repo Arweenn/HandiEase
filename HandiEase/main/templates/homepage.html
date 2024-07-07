@@ -20,10 +20,10 @@
         <div class="topnav">
             <nav aria-label="Main Navigation">
                 <a href="/"><h1>HandiEase</h1></a>
-                <form method="get" action="{% url 'homepage' %}">
+                <form id="searchForm" method="get" action="{% url 'homepage' %}">
                     <label for="search" class="search-label">Rechercher</label>
                     <input type="text" id="search" name="q" placeholder="Rechercher...">
-                    <button type="submit">Rechercher</button>
+                    <a href="#articles" class="button">Rechercher</a>
                 </form>
 
                 <!-- Login / Register -->
@@ -48,12 +48,10 @@
             <h2 id="about-heading">À Propos</h2>
             <img src="{% static 'images/about.jpg' %}" alt="Une jeune femme en situation de handicap consultant son ordinateur." class="about-img">
             <p>
-                HandiEase est un site web accessible et inclusif, dédié à centraliser les articles sur le handicap.
-                Conçu pour être entièrement adapté aux personnes en situation de handicap, HandiEase facilite l'accès à l'information pertinente en un seul endroit.
-            </p>
-            <p>
-                En plus d'un regroupement d'articles, HandiEase propose une liste de lecture disponible après connexion de l'utilisateur, dans l'optique de garder à portée de main les articles qui l'intéresse.
-                Vous pouvez également filtrer les articles par catégorie, pour trouver plus facilement ce que vous recherchez.
+                HandiEase est une plateforme web inclusive et accessible issue d'un projet étudiant, dédiée à centraliser des articles et des ressources sur le handicap. Conçu pour répondre aux besoins des personnes en situation de handicap, HandiEase simplifie l'accès à une information pertinente en un seul lieu.
+                <br>
+                <br>
+                En plus de regrouper des articles de qualité, HandiEase offre aux utilisateurs connectés la possibilité de créer une liste de lecture personnalisée, leur permettant de garder à portée de main les contenus qui les intéressent. Grâce à des filtres par catégorie, les utilisateurs peuvent également trouver plus facilement les articles correspondant à leurs besoins spécifiques.
             </p>
         </div>
     </section>
@@ -84,18 +82,18 @@
             <div class='topics'>
                 <div class='container'>
                     <div class='row' id='linkContainer'>
-                        <a class="" href="/" aria-label="Tout les articles"><span>Tout</span></a>
-                        <a class="" href="/?q=accessibilité" aria-label="Articles sur l'accessibilité"><span>Accessibilité</span></a>
-                        <a class="" href="/?q=inclusion" aria-label="Articles sur l'inclusion"><span>Inclusion</span></a>
-                        <a class="" href="/?q=sport" aria-label="Articles sur le sport"><span>Sport</span></a>
-                        <a class="" href="/?q=mobilité" aria-label="Articles sur la mobilité"><span>Mobilité</span></a>
-                        <a class="" href="/?q=santé" aria-label="Articles sur la santé"><span>Santé</span></a>
-                        <a class="" href="/?q=social" aria-label="Articles sur le social"><span>Social</span></a>
-                        <a class="" href="/?q=emploi" aria-label="Articles sur l'emploi"><span>Emploi</span></a>
+                        <a href="/#articles" aria-label="Tout les articles"><span>Tout</span></a>
+                        <a href="/?q=accessibilité#articles" aria-label="Articles sur l'accessibilité"><span>Accessibilité</span></a>
+                        <a href="/?q=inclusion#articles" aria-label="Articles sur l'inclusion"><span>Inclusion</span></a>
+                        <a href="/?q=sport#articles" aria-label="Articles sur le sport"><span>Sport</span></a>
+                        <a href="/?q=mobilité#articles" aria-label="Articles sur la mobilité"><span>Mobilité</span></a>
+                        <a href="/?q=santé#articles" aria-label="Articles sur la santé"><span>Santé</span></a>
+                        <a href="/?q=social#articles" aria-label="Articles sur le social"><span>Social</span></a>
+                        <a href="/?q=emploi#articles" aria-label="Articles sur l'emploi"><span>Emploi</span></a>
                     </div>
                 </div>
             </div>
-            <ul id="article-list" aria-live="polite">
+            <ul class="article-list" aria-live="polite">
                 {% for article in articles %}
                     <li data-article-title="{{ article.title }}">
                         <div class="article">
@@ -120,8 +118,8 @@
         <div class="pagination" aria-label="Pagination des articles">
             <span class="step-links">
                 {% if articles.has_previous %}
-                    <a href="?q={{ query }}&page=1" class="button" aria-label="Première page">&laquo; Première</a>
-                    <a href="?q={{ query }}&page={{ articles.previous_page_number }}" class="button" aria-label="Page précédente">Précédente</a>
+                    <a href="?q={{ query }}&page=1#articles" class="button" aria-label="Première page">&laquo; Première</a>
+                    <a href="?q={{ query }}&page={{ articles.previous_page_number }}#articles" class="button" aria-label="Page précédente">Précédente</a>
                 {% endif %}
 
                 <span class="current">
@@ -129,13 +127,13 @@
                 </span>
 
                 {% if articles.has_next %}
-                    <a href="?q={{ query }}&page={{ articles.next_page_number }}" class="button" aria-label="Page suivante">Suivante</a>
-                    <a href="?q={{ query }}&page={{ articles.paginator.num_pages }}" class="button" aria-label="Dernière page">Dernière &raquo;</a>
+                    <a href="?q={{ query }}&page={{ articles.next_page_number }}#articles" class="button" aria-label="Page suivante">Suivante</a>
+                    <a href="?q={{ query }}&page={{ articles.paginator.num_pages }}#articles" class="button" aria-label="Dernière page">Dernière &raquo;</a>
                 {% endif %}
 
                 {% if not articles.has_next %}
                     <span class="back-to-home">
-                        <a href="{% url 'homepage' %}" class="button" aria-label="Retour à la première page">Retour</a>
+                        <a href="/#articles" class="button" aria-label="Retour à la première page">Retour</a>
                     </span>
                 {% endif %}
             </span>
@@ -204,7 +202,9 @@
 </section>
 
 <footer>
+
     <img src="{% static 'images/footer.jpg' %}" alt="Un groupe de jeunes personnes passant un moment convivial" class="footer-img">
+
     <div class="credits">
         <h4>Crédits</h4>
         <p>
@@ -220,6 +220,7 @@
             Vous pouvez retrouver le code source du projet sur <a href="https://github.com/Arweenn/HandiEase-Portfolio" target="_blank">GitHub</a>.
         </p>
     </div>
+
 </footer>
 
 <div id="move-to-top-button">
