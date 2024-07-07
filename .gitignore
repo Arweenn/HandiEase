@@ -2,7 +2,6 @@
 *.pyo
 *.pyd
 __pycache__/
-fetchArticles/app/migrations/*.*
 HandiEase/backup/*.*
 HandiEase/Separate_functions/*.*
 backup/userAuth/migrations/*.py
