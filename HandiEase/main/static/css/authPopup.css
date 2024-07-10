@@ -14,8 +14,7 @@
 	margin-top: 60px;
     width: 100%;
 	height: 100%;
-    background-color: #ffffff37;
-	backdrop-filter: blur(5px);
+	backdrop-filter: blur(8px);
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
@@ -24,13 +23,11 @@
 /* Popup content */
 .popup-content {
 	position: relative;
-    background-color: #ffffffbe;
     margin: 5% auto;
     padding-top: 20px;
 	padding-left: 20px;
 	padding-right: 20px;
 	padding-bottom: 5px;
-    box-shadow: #00000017 0px 0px 5px 0px;
     width: 100%;
     max-width: 600px;
 	border-radius: 10px;
@@ -117,7 +114,7 @@
 	font-family: inherit; 
 	font-size: 16px; 
 	letter-spacing: .5px; 
-	color: #999; 
+	color: #000000bd; 
 	background-color: transparent;
 	border: none; 
 	outline: none;
@@ -127,39 +124,44 @@
 
 /* Login switcher styles */
 .form-wrapper.is-active .switcher-login {
-	color: #375F90; 
+	color: #375F90;
+	background-color: #d7e7f1;
+	border-radius: 20px;
+	padding: 10px 20px;
 	transform: translateX(90px);
 }
 
 /* Signup switcher styles */
 .form-wrapper.is-active .switcher-signup {
 	color: #375F90;
+	background-color: #d7e7f1;
+	border-radius: 20px;
+	padding: 10px 20px;
 	transform: translateX(-90px); 
 }
 
-/* Underline effect for switchers */
-.underline {
-	position: absolute; /* Position absolue pour un placement précis */
-	bottom: -5px; /* Décalage par rapport au bas */
-	left: 0; /* Aligné à gauche */
-	overflow: hidden; /* Cache le dépassement */
-	pointer-events: none; /* Ignorer les événements de pointage */
+
+/* .underline {
+	position: absolute; 
+	bottom: -5px;
+	left: 0;
+	overflow: hidden;
+	pointer-events: none;
 	width: 100%;
 	height: 2px;
 }
 
-/* Animation for underline */
 .underline::before {
-	content: ''; /* Contenu vide pour la pseudo-élément */
-	position: absolute; /* Position absolue pour un placement précis */
-	top: 0; /* Aligné en haut */
-	left: inherit; /* Aligné à gauche */
-	display: block; /* Affiche comme un bloc */
-	width: inherit; /* Largeur héritée */
-	height: inherit; /* Hauteur héritée */
-	background-color: currentColor; /* Couleur de fond identique à la couleur actuelle */
-	transition: transform .4s ease-out; /* Transition pour l'effet de transformation */
-}
+	content: '';
+	position: absolute;
+	top: 0;
+	left: inherit;
+	display: block;
+	width: inherit;
+	height: inherit;
+	background-color: currentColor;
+	transition: transform .4s ease-out;
+} */
 
 /* Login switcher underline animation */
 .switcher-login .underline::before {
@@ -352,7 +354,9 @@
 /* Login button styles */
 .btn-login {
 	color: #fbfdff; 
-	background: #375F90; 
+	background: #375F90;
+	box-shadow: inset 0 0 0 2px #375F90;
+	cursor: pointer;
 	transform: translateX(-30%); /* Translation pour le bouton de connexion */
 }
 
@@ -361,5 +365,6 @@
 	color: #fbfdff;
 	background: #375F90;
 	box-shadow: inset 0 0 0 2px #375F90;
+	cursor: pointer;
 	transform: translateX(30%); /* Translation pour le bouton d'inscription */
 }

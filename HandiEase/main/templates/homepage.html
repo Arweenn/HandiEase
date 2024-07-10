@@ -20,10 +20,10 @@
         <div class="topnav">
             <nav aria-label="Main Navigation">
                 <a href="/"><h1>HandiEase</h1></a>
-                <form id="searchForm" method="get" action="{% url 'homepage' %}">
+                <form id="searchForm" method="get" action="{% url 'homepage' %}#articles">
                     <label for="search" class="search-label">Rechercher</label>
                     <input type="text" id="search" name="q" placeholder="Rechercher...">
-                    <a href="#articles" class="button">Rechercher</a>
+                    <button type="submit" class="button">Rechercher</button>
                 </form>
 
                 <!-- Login / Register -->
