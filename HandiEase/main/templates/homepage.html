@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+
+<head>
+    {% load admin_urls %}
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>HandiEase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/authPopup.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homepage.css' %}">
+</head>
+
+
+<body>
+  
+    <header>
+        <!-- Nav Bar -->
+        <div class="topnav">
+            <nav aria-label="Main Navigation">
+                <a href="/"><h1>HandiEase</h1></a>
+                <form id="searchForm" method="get" action="{% url 'homepage' %}#articles">
+                    <label for="search" class="search-label">Rechercher</label>
+                    <input type="text" id="search" name="q" placeholder="Rechercher...">
+                    <button type="submit" class="button">Rechercher</button>
+                </form>
+
+                <!-- Login / Register -->
+                <div class="login-register">
+                    {% if user.is_authenticated %}
+                        <p>Bienvenue, {{ user.username }} !</p>
+                        <form method="post" action="{% url 'homepage' %}">
+                            {% csrf_token %}
+                            <button id="logoutButton">Déconnexion</button>
+                        </form>
+                    {% else %}
+                        <button id="openAuthPopup">Se connecter</button>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section" aria-labelledby="about-heading">
+        <div class="about">
+            <h2 id="about-heading">À Propos</h2>
+            <img src="{% static 'images/about.jpg' %}" alt="Une jeune femme en situation de handicap consultant son ordinateur." class="about-img">
+            <p>
+                HandiEase est une plateforme web inclusive et accessible issue d'un projet étudiant, dédiée à centraliser des articles et des ressources sur le handicap. Conçu pour répondre aux besoins des personnes en situation de handicap, HandiEase simplifie l'accès à une information pertinente en un seul lieu.
+                <br>
+                <br>
+                En plus de regrouper des articles de qualité, HandiEase offre aux utilisateurs connectés la possibilité de créer une liste de lecture personnalisée, leur permettant de garder à portée de main les contenus qui les intéressent. Grâce à des filtres par catégorie, les utilisateurs peuvent également trouver plus facilement les articles correspondant à leurs besoins spécifiques.
+            </p>
+        </div>
+    </section>
+
+    <!-- List Section -->
+    {% if user.is_authenticated %}
+    <section id="liste" class="section" aria-labelledby="reading-list-heading">
+        <h2 id="reading-list-heading">Liste de lecture</h2>
+        <ul id="reading-list" aria-live="polite">
+            {% if reading_list %}
+                {% for article_title in reading_list %}
+                    <li>
+                        <a href="{{ article.link }}" class="article-title">{{ article.title }}</a>
+                        <button class="remove-from-reading-list" data-article-title="{{ article.title }}" aria-label="Retirer {{ article.title }} de la liste de lecture">Retirer</button>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li id="no-articles-message">Aucun article dans votre liste de lecture.</li>
+            {% endif %}
+        </ul>
+    </section>
+    {% endif %}
+
+
+    <!-- Articles Section -->
+    <section id="articles" class="section" aria-labelledby="articles-heading">
+        <h2 id="articles-heading">Actualités</h2>
+            <div class='topics'>
+                <div class='container'>
+                    <div class='row' id='linkContainer'>
+                        <a href="/#articles" aria-label="Tout les articles"><span>Tout</span></a>
+                        <a href="/?q=accessibilité#articles" aria-label="Articles sur l'accessibilité"><span>Accessibilité</span></a>
+                        <a href="/?q=inclusion#articles" aria-label="Articles sur l'inclusion"><span>Inclusion</span></a>
+                        <a href="/?q=sport#articles" aria-label="Articles sur le sport"><span>Sport</span></a>
+                        <a href="/?q=mobilité#articles" aria-label="Articles sur la mobilité"><span>Mobilité</span></a>
+                        <a href="/?q=santé#articles" aria-label="Articles sur la santé"><span>Santé</span></a>
+                        <a href="/?q=social#articles" aria-label="Articles sur le social"><span>Social</span></a>
+                        <a href="/?q=emploi#articles" aria-label="Articles sur l'emploi"><span>Emploi</span></a>
+                    </div>
+                </div>
+            </div>
+            <ul class="article-list" aria-live="polite">
+                {% for article in articles %}
+                    <li data-article-title="{{ article.title }}">
+                        <div class="article">
+                            <h3>{{ article.title }}</h3>
+                                <p>{{ article.summary|safe }}</p>
+                                <p><a href="{{ article.link }}" target="_blank">Lire l'article complet</a></p>
+                            {% if article.published %}
+                                <p><strong> Publié le: </strong>{{ article.published }}</p>
+                            {% endif %}
+                            {% if article.source %}
+                                <p><strong> Source: </strong>{{ article.source }}</a></p>
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                                <button class="add-to-reading-list" aria-label="Ajouter {{ article.title }} à la liste de lecture">Ajouter à la liste de lecture</button>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        <!-- Article Pagination -->
+        <div class="pagination" aria-label="Pagination des articles">
+            <span class="step-links">
+                {% if articles.has_previous %}
+                    <a href="?q={{ query }}&page=1#articles" class="button" aria-label="Première page">&laquo; Première</a>
+                    <a href="?q={{ query }}&page={{ articles.previous_page_number }}#articles" class="button" aria-label="Page précédente">Précédente</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ articles.number }} sur {{ articles.paginator.num_pages }}.
+                </span>
+
+                {% if articles.has_next %}
+                    <a href="?q={{ query }}&page={{ articles.next_page_number }}#articles" class="button" aria-label="Page suivante">Suivante</a>
+                    <a href="?q={{ query }}&page={{ articles.paginator.num_pages }}#articles" class="button" aria-label="Dernière page">Dernière &raquo;</a>
+                {% endif %}
+
+                {% if not articles.has_next %}
+                    <span class="back-to-home">
+                        <a href="/#articles" class="button" aria-label="Retour à la première page">Retour</a>
+                    </span>
+                {% endif %}
+            </span>
+        </div>
+    </section>
+
+
+    <!-- Auth Popup -->
+<section class="forms-section">
+    <div id="authPopup" class="popup" role="dialog" aria-labelledby="authPopupTitle" aria-describedby="authPopupDesc">
+        <div class="popup-content">
+            <span class="close" id="closeAuthPopup" aria-label="Fermer">&times;</span>
+            <div class="forms">
+                <div class="form-wrapper is-active">
+                    <button type="button" class="switcher switcher-login" aria-controls="loginForm">
+                        Connexion
+                        <span class="underline"></span>
+                    </button>
+                    <form class="form form-login" id="loginForm" action="{% url 'homepage' %}" method="POST">
+                        {% csrf_token %}
+                        <fieldset>
+                            <legend id="loginFormTitle">Veuillez entrer votre nom d'utilisateur et votre mot de passe pour vous connecter.</legend>
+                            <div class="input-block">
+                                <label for="login-username">Nom d'utilisateur</label>
+                                <input id="login-username" type="text" name="username" required aria-labelledby="loginFormTitle">
+                            </div>
+                            <div class="input-block">
+                                <label for="login-password">Mot de Passe</label>
+                                <input id="login-password" type="password" name="password" required aria-labelledby="loginFormTitle">
+                            </div>
+                        </fieldset>
+                        <button type="submit" class="btn-login">Connexion</button>
+                    </form>
+                </div>
+                <div class="form-wrapper">
+                    <button type="button" class="switcher switcher-signup" aria-controls="signupForm">
+                        S'inscrire
+                        <span class="underline"></span>
+                    </button>
+                    <form class="form form-signup" id="signupForm" action="{% url 'homepage' %}" method="POST">
+                        {% csrf_token %}
+                        <fieldset>
+                            <legend id="signupFormTitle">Veuillez remplir les champs suivants pour vous inscrire.</legend>
+                            <div class="input-block">
+                                <label for="signup-username">Nom d'Utilisateur</label>
+                                <input id="signup-username" type="text" name="username" required aria-labelledby="signupFormTitle">
+                            </div>
+                            <div class="input-block">
+                                <label for="signup-email">E-mail</label>
+                                <input id="signup-email" type="email" name="email" required>
+                            </div>
+                            <div class="input-block">
+                                <label for="signup-password">Mot de Passe</label>
+                                <input id="signup-password" type="password" name="password" required aria-labelledby="signupFormTitle">
+                            </div>
+                        </fieldset>
+                        <button type="submit" class="btn-signup">S'Inscrire</button>
+                    </form>
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+
+    <img src="{% static 'images/footer.jpg' %}" alt="Un groupe de jeunes personnes passant un moment convivial" class="footer-img">
+
+    <div class="credits">
+        <h4>Crédits</h4>
+        <p>
+            Les informations présentées sur ce site sont agrégées à partir de divers flux RSS de sources externes.
+            Nous ne possédons ni ne contrôlons le contenu original des articles, et les droits d'auteur de chaque article appartiennent à leurs auteurs respectifs.
+            Chaque titre et description d'article contient un lien vers le site d'origine, où vous pouvez consulter l'article complet.
+            Nous ne sommes pas responsables des contenus, opinions ou informations présentés sur les sites externes.
+            Si vous êtes le propriétaire du contenu et avez des questions ou des préoccupations concernant l'utilisation de votre contenu sur notre site,
+            veuillez nous contacter directement par <a href="mailto:7459@holbertonstudents.com">e-mail</a>.
+        </p>
+        <p>
+            Ce site a été créé par Arwen Dumont, dans le cadre d'un projet étudiant Développeur Web & Web Mobile, à <a href="https://www.holbertonschool.com/" target="_blank">Holberton School</a>.
+            Vous pouvez retrouver le code source du projet sur <a href="https://github.com/Arweenn/HandiEase-Portfolio" target="_blank">GitHub</a>.
+        </p>
+    </div>
+
+</footer>
+
+<div id="move-to-top-button">
+    <img src="{% static 'images/arrow-up.png' %}" alt="Retour en haut">
+</div>
+
+<script src="{% static 'js/homepage.js' %}"></script>
+<script src="{% static 'js/authPopup.js' %}"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    var addToReadingListUrl = "{% url 'add_to_reading_list' %}";
+    var removeFromReadingListUrl = "{% url 'remove_from_reading_list' %}";
+    var csrfToken = "{{ csrf_token }}";
+</script>
+<script src="{% static 'js/readingList.js' %}"></script>
+
+</body>
+</html>
